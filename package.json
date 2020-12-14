@@ -1,0 +1,19 @@
+{
+  "name": "js-util",
+  "version": "1.0.0",
+  "description": "js常用工具",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MonGDCH/js-util.git"
+  },
+  "author": "Mon",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/MonGDCH/js-util/issues"
+  },
+  "homepage": "https://github.com/MonGDCH/js-util#readme"
+}
