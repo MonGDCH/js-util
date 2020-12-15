@@ -21,7 +21,7 @@ export default {
         },
         alt: {
             type: String,
-            default: "抱歉！你的浏览器不支持H5视频"
+            default: "抱歉！你的浏览器不支持H5视频播放"
         },
         width: {
             type: String,

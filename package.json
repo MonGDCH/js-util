@@ -1,11 +1,12 @@
 {
-  "name": "mon-js-util",
-  "version": "1.0.1",
-  "description": "一些Vue常用的组件",
+  "name": "mon-util",
+  "version": "1.0.0",
+  "description": "Vue常用的组件库",
   "keyword": "mon",
   "author": "Mon<985558837@qq.com>",
   "private": false,
-  "main": "lib/mon-js-util.umd.min.js",
+  "license": "MIT",
+  "main": "lib/mon-util.umd.min.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MonGDCH/js-util.git"
@@ -16,13 +17,11 @@
   "homepage": "https://github.com/MonGDCH/js-util#readme",
   "scripts": {
     "dev": "vue-cli-service serve",
-    "build": "vue-cli-service build --target lib --name mon-js-util --dest lib components/index.js",
-    "ant-build": "vue-cli-service build --target lib --name ant-js-util --dest ant ant-components/index.js",
+    "build": "vue-cli-service build --target lib --name mon-util --dest lib components/index.js",
+    "ant-build": "vue-cli-service build --target lib --name mon-ant-util --dest ant ant-components/index.js",
     "upload": "npm publish --registry https://registry.npmjs.org/"
   },
   "dependencies": {
-    "ant-design-vue": "^1.7.2",
-    "axios": "^0.19.0",
     "compression-webpack-plugin": "^4.0.0",
     "core-js": "^2.6.5",
     "moment": "^2.29.1",

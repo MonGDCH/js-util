@@ -13,6 +13,7 @@ module.exports = {
     assetsDir: './static/',
     // 项目部署的基础路径 默认/，放在子目录时使用./或者加你的域名
     publicPath: isProduction ? '.' : '/',
+    css: { extract: false },
     // 扩展chain配置
     chainWebpack: config => {
         // 修复热更新HMR
