@@ -1,19 +1,49 @@
 {
-  "name": "js-util",
-  "version": "1.0.0",
-  "description": "js常用工具",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
+  "name": "mon-js-util",
+  "version": "1.0.1",
+  "description": "一些Vue常用的组件",
+  "keyword": "mon",
+  "author": "Mon<985558837@qq.com>",
+  "private": false,
+  "main": "lib/mon-js-util.umd.min.js",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MonGDCH/js-util.git"
   },
-  "author": "Mon",
-  "license": "MIT",
   "bugs": {
     "url": "https://github.com/MonGDCH/js-util/issues"
   },
-  "homepage": "https://github.com/MonGDCH/js-util#readme"
+  "homepage": "https://github.com/MonGDCH/js-util#readme",
+  "scripts": {
+    "dev": "vue-cli-service serve",
+    "build": "vue-cli-service build --target lib --name mon-js-util --dest lib components/index.js",
+    "ant-build": "vue-cli-service build --target lib --name ant-js-util --dest ant ant-components/index.js",
+    "upload": "npm publish --registry https://registry.npmjs.org/"
+  },
+  "dependencies": {
+    "ant-design-vue": "^1.7.2",
+    "axios": "^0.19.0",
+    "compression-webpack-plugin": "^4.0.0",
+    "core-js": "^2.6.5",
+    "moment": "^2.29.1",
+    "vue": "^2.6.10",
+    "webpack-cdn-plugin": "^3.3.1"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^3.8.0",
+    "@vue/cli-service": "^3.8.0",
+    "babel-plugin-import": "^1.12.2",
+    "less": "^3.0.4",
+    "less-loader": "^4.1.0",
+    "vue-template-compiler": "^2.6.10"
+  },
+  "postcss": {
+    "plugins": {
+      "autoprefixer": {}
+    }
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
 }
