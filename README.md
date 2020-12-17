@@ -1,5 +1,15 @@
 # js-util
 
+> v1.0.0
+
+- 发布第一个版本
+
+> v1.0.1
+
+- 增加图片单选、图片多选组件
+- 大幅度优惠打包性能，减小包的体积
+
+
 ## 回到顶部组件
 
 ### 模板语法
@@ -365,3 +375,37 @@ this.$toastr.send("Hello mon-util");
 | 事件名  | 描述 |
 | -------- | -------- |
 | click | 点击文字，回调接口方法   |
+
+
+## 图片单选
+
+### 模板语法
+
+```vue
+<mon-redio-img :list="arr" v-model="str"></mon-redio-img>
+```
+
+### API
+
+| 参数名 | 类型 | 是否必须 | 描述 |
+| -------- | -------- | -------- | -------- |
+| value     | String    | 是     | 选中的选项数据值，可使用v-model绑定	     |
+| list     | array    | 否     | 图片数据列表，例子：[{ img: 'images/1.png', 'title': '1.png', value: '1' },{ img: 'images/2.png', 'title': '2.png', value: '2' }]     |
+
+
+## 图片单选
+
+### 模板语法
+
+```vue
+<mon-checkbox-img :list="arr" v-model="str"></mon-checkbox-img>
+```
+
+### API
+
+| 参数名 | 类型 | 是否必须 | 描述 |
+| -------- | -------- | -------- | -------- |
+| value     | array    | 是     | 选中的选项数据值，可使用v-model绑定	     |
+| list     | array    | 否     | 图片数据列表，例子：[{ img: 'images/1.png', 'title': '1.png', value: '1' },{ img: 'images/2.png', 'title': '2.png', value: '2' }]     |
+
+

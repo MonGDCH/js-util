@@ -5,6 +5,8 @@ import TimePicker from './MonTimePicker'
 import Video from './MonVideo'
 import Word from './MonWord'
 import Img from './MonImg'
+import CheckboxImg from './MonCheckboxImg'
+import RedioImg from './MonRedioImg'
 
 
 const components = [
@@ -15,6 +17,8 @@ const components = [
     Video,
     Word,
     Img,
+    CheckboxImg,
+    RedioImg,
 ];
 
 
@@ -49,6 +53,10 @@ export const MonVideo = Video
 export const MonWord = Word
 // 图片
 export const MonImg = Img
+// 图片单选
+export const MonRedioImg = RedioImg
+// 图片多选
+export const MonCheckboxImg = CheckboxImg
 
 // 默认导出
 export default {
@@ -60,4 +68,6 @@ export default {
     'MonVideo': MonVideo,
     'MonWord': MonWord,
     'MonImg': MonImg,
+    'MonRedioImg': MonRedioImg,
+    'MonCheckboxImg': MonCheckboxImg,
 }

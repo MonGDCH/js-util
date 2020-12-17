@@ -1,6 +1,6 @@
 {
   "name": "mon-util",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vue常用的组件库",
   "keyword": "mon",
   "author": "Mon<985558837@qq.com>",
@@ -22,6 +22,7 @@
     "upload": "npm publish --registry https://registry.npmjs.org/"
   },
   "dependencies": {
+    "ant-design-vue": "^1.7.2",
     "compression-webpack-plugin": "^4.0.0",
     "core-js": "^2.6.5",
     "moment": "^2.29.1",

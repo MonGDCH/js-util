@@ -17,8 +17,6 @@
 
 <script>
 import moment from "moment";
-import 'moment/locale/zh-cn';
-moment.locale('zh-cn');
 function getVal(v, format) {
     if (v instanceof Array && v.length == 2) {
         if (v[0] == "" || v[1] == "") {

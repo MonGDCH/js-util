@@ -12,17 +12,53 @@
         <!-- <mon-img :src="`http://kab.test/public/static/images/logo.png`" :width="`400px`"/> -->
         <!-- <mon-video :src="`https://www.runoob.com/try/demo_source/mov_bbb.mp4`" :width="`800px`" /> -->
 
-        <MonDatePicker/>
+        <mon-checkbox-img :list="imgs" v-model="img.path" />
+        <!-- <mon-redio-img :list="imgs" v-model="img.path" /> -->
+
+
+        <div>
+            <button @click="getData()">Get Data</button>
+        </div>
     </div>
 </template>
 <script>
-import MonDatePicker from 'ant-components/MonDatePicker'
+// import MonCheckboxImg from "ant-components/MonCheckboxImg";
 export default {
-    components: {MonDatePicker},
+    // components: { MonCheckboxImg },
     data() {
         return {
             show: true,
-            p: 1
+            p: 1,
+            imgs: [
+                {
+                    img:
+                        "https://www.jq22.com/demo/selectImg201705242355/images/1.png",
+                    title: "1.png",
+                    value: "1"
+                },
+                {
+                    img:
+                        "https://www.jq22.com/demo/selectImg201705242355/images/2.png",
+                    title: "2.png",
+                    value: "2"
+                },
+                {
+                    img:
+                        "https://www.jq22.com/demo/selectImg201705242355/images/3.png",
+                    title: "3.png",
+                    value: "3"
+                },
+                {
+                    img:
+                        "https://www.jq22.com/demo/selectImg201705242355/images/6.png",
+                    title: "6.png",
+                    value: "8"
+                }
+            ],
+            img: {
+                path: []
+                // path: ''
+            }
         };
     },
     mounted() {
@@ -32,7 +68,10 @@ export default {
     },
     methods: {
         open() {
-            location.href = 'http://baidu.com'
+            location.href = "http://baidu.com";
+        },
+        getData(){
+            console.log(this.img)
         }
     }
 };

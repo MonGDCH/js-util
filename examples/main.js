@@ -31,12 +31,8 @@ import App from './App.vue'
 // Vue.use(monComponent)
 // console.log(monComponent)
 
-// import {monBackTop} from 'components'
-// console.log(monBackTop)
-
-import Antd from 'ant-design-vue'
-import 'ant-design-vue/dist/antd.css';
-Vue.use(Antd)
+import ant from 'ant-components'
+Vue.use(ant)
 
 Vue.config.productionTip = false
 new Vue({

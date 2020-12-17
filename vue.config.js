@@ -24,7 +24,6 @@ module.exports = {
         config.plugins.delete('preload');
         // 移除moment依赖
         config.plugin('ignore').use(Webpack.IgnorePlugin, [/^\.\/locale$/, /moment$/])
-
         // 定义HTML模板
         if (!isProduction) {
             config.plugin('html').tap(args => {
@@ -32,6 +31,23 @@ module.exports = {
                 return args
             })
         }
+        // if (!isProduction) {
+        //     config.plugin('cdn').use(WebpackCdnPlugin, [{
+        //         modules: [
+        //             {
+        //                 name: 'vue',
+        //                 var: 'Vue',
+        //                 path: 'https://cdn.bootcss.com/vue/2.6.11/vue.min.js',
+        //             },
+        //             {
+        //                 name: 'ant-design-vue',
+        //                 var: 'Antd',
+        //                 path: 'http://cdn.jsdelivr.net/npm/ant-design-vue@1.6.4/dist/antd.min.js',
+        //             }
+        //         ],
+        //         prodUrl: ':path'
+        //     }])
+        // }
         // 设置目录别名alias
         config.resolve.alias
             .set('components', path.join(__dirname, 'components'))
@@ -42,6 +58,13 @@ module.exports = {
     configureWebpack: config => {
         // 定义入口文件
         config.entry.app = path.join(__dirname, 'examples/main.js')
+        // 不打包webpack
+        config.externals = {
+            vue: 'Vue',
+            'ant-design-vue': 'ant-design-vue',
+            'antd': 'ant-design-vue',
+            moment: 'moment',
+        }
     },
     // 开发服务环境配置
     devServer: {
