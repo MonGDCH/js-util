@@ -12,8 +12,8 @@
         <!-- <mon-img :src="`http://kab.test/public/static/images/logo.png`" :width="`400px`"/> -->
         <!-- <mon-video :src="`https://www.runoob.com/try/demo_source/mov_bbb.mp4`" :width="`800px`" /> -->
 
-        <mon-checkbox-img :list="imgs" v-model="img.path" />
-        <!-- <mon-redio-img :list="imgs" v-model="img.path" /> -->
+        <!-- <mon-checkbox-img :list="imgs" v-model="img.path" /> -->
+        <mon-redio-img :list="imgs" v-model="img.path2" />
 
 
         <div>
@@ -32,21 +32,15 @@ export default {
             imgs: [
                 {
                     img:
-                        "https://www.jq22.com/demo/selectImg201705242355/images/1.png",
+                        "https://www.jq22.com/demo/selectImg201705242355/images/4.png",
                     title: "1.png",
                     value: "1"
                 },
                 {
                     img:
-                        "https://www.jq22.com/demo/selectImg201705242355/images/2.png",
+                        "https://www.jq22.com/demo/selectImg201705242355/images/5.png",
                     title: "2.png",
                     value: "2"
-                },
-                {
-                    img:
-                        "https://www.jq22.com/demo/selectImg201705242355/images/3.png",
-                    title: "3.png",
-                    value: "3"
                 },
                 {
                     img:
@@ -56,8 +50,8 @@ export default {
                 }
             ],
             img: {
-                path: []
-                // path: ''
+                path: [],
+                path2: ''
             }
         };
     },

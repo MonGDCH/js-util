@@ -9,6 +9,10 @@
 - 增加图片单选、图片多选组件
 - 大幅度优惠打包性能，减小包的体积
 
+> v1.0.2
+
+- 更新文档，补充图片单选、多选禁用功能
+
 
 ## 回到顶部组件
 
@@ -390,10 +394,12 @@ this.$toastr.send("Hello mon-util");
 | 参数名 | 类型 | 是否必须 | 描述 |
 | -------- | -------- | -------- | -------- |
 | value     | String    | 是     | 选中的选项数据值，可使用v-model绑定	     |
-| list     | array    | 否     | 图片数据列表，例子：[{ img: 'images/1.png', 'title': '1.png', value: '1' },{ img: 'images/2.png', 'title': '2.png', value: '2' }]     |
+| disabled | Boolean    | 否     | 是否禁用     |
+| list     | Array    | 否     | 图片数据列表，例子：[{ img: 'images/1.png', 'title': '1.png', value: '1' },{ img: 'images/2.png', 'title': '2.png', value: '2' }]     |
 
 
-## 图片单选
+
+## 图片多选
 
 ### 模板语法
 
@@ -405,7 +411,8 @@ this.$toastr.send("Hello mon-util");
 
 | 参数名 | 类型 | 是否必须 | 描述 |
 | -------- | -------- | -------- | -------- |
-| value     | array    | 是     | 选中的选项数据值，可使用v-model绑定	     |
-| list     | array    | 否     | 图片数据列表，例子：[{ img: 'images/1.png', 'title': '1.png', value: '1' },{ img: 'images/2.png', 'title': '2.png', value: '2' }]     |
+| value     | Array    | 是     | 选中的选项数据值，可使用v-model绑定	     |
+| disabled | Boolean    | 否     | 是否禁用	     |
+| list     | Array    | 否     | 图片数据列表，例子：[{ img: 'images/1.png', 'title': '1.png', value: '1' },{ img: 'images/2.png', 'title': '2.png', value: '2' }]     |
 
 

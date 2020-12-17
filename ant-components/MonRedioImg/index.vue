@@ -1,7 +1,10 @@
 <template>
     <a-row style="height: 100%">
         <a-col :xs="12" :sm="6" :md="4" v-for="(item, index) in list" :key="index">
-            <div class="img-select" @click="redioImg(item.value)">
+            <div
+                :class="['img-select', (disabled ? 'allowed' : 'pointer')]"
+                @click="redioImg(item.value)"
+            >
                 <div class="img-select-img">
                     <mon-img :src="item.img" :alt="item.title" />
                 </div>
@@ -46,6 +49,10 @@ export default {
                 return [];
             }
         },
+        disabled: {
+            type: Boolean,
+            default: false
+        },
         value: {
             type: String,
             default: null
@@ -67,10 +74,12 @@ export default {
     methods: {
         // 图片单选
         redioImg(index) {
-            if (this.selected == index) {
-                this.selected = null;
-            } else {
-                this.selected = index;
+            if (!this.disabled) {
+                if (this.selected == index) {
+                    this.selected = null;
+                } else {
+                    this.selected = index;
+                }
             }
         }
     }
@@ -85,9 +94,16 @@ export default {
     overflow: hidden;
     text-align: center;
     border-radius: 4px;
-    cursor: pointer;
     min-width: 48px;
     min-height: 48px;
+
+    &.pointer {
+        cursor: pointer;
+    }
+
+    &.allowed {
+        cursor: not-allowed;
+    }
 
     .hidden {
         display: none;
