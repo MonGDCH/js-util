@@ -9,9 +9,12 @@ import PageList from './pageList';
 import Paging from './paging';
 import Signature from './signature';
 import Toastr from './toastr';
-import Video from '../ant-components/MonVideo'
-import Word from '../ant-components/MonWord'
-import Img from '../ant-components/MonImg'
+import Toast from './toast';
+import Video from './MonVideo'
+import Word from './MonWord'
+import Img from './MonImg'
+import RadioIImg from './MonRadioImg'
+import CheckboxImg from './MonCheckboxImg'
 
 const components = [
     BackTop,
@@ -24,13 +27,16 @@ const components = [
     Signature,
     Video,
     Word,
-    Img
+    Img,
+    RadioIImg,
+    CheckboxImg
 ];
 
 const uses = [
     LoadingBar,
     LoadingModal,
-    Toastr
+    Toastr,
+    Toast
 ]
 
 // vue安装方法
@@ -76,13 +82,18 @@ export const MonPaging = Paging;
 export const MonSignature = Signature;
 // 右上角轻提示
 export const MonToastr = Toastr;
+// 移动端上中下轻提示
+export const MonToast = Toast;
 // 视频
 export const MonVideo = Video
 // 文字
 export const MonWord = Word
 // 图片
 export const MonImg = Img
-
+// 图片单选
+export const MonRadioIImg = RadioIImg
+// 图片多选
+export const MonCheckboxImg = CheckboxImg
 
 // 默认导出
 export default {
@@ -102,4 +113,7 @@ export default {
     'MonVideo': MonVideo,
     'MonWord': MonWord,
     'MonImg': MonImg,
+    'MonRadioIImg': MonRadioIImg,
+    'MonCheckboxImg': MonCheckboxImg,
+    'MonToast': MonToast,
 };

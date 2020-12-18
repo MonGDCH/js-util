@@ -8,50 +8,49 @@
         <!-- <mon-paging v-model="p" :count="12" :pageSize="4" /> -->
         <!-- <mon-signature /> -->
         <!-- <mon-back-top/> -->
-        <!-- <mon-word :value="`test`" :color="`success`" @click="open"></mon-word> -->
+        <!-- <mon-word :value="`你好你好`" :color="`success`" @click="open"></mon-word> -->
         <!-- <mon-img :src="`http://kab.test/public/static/images/logo.png`" :width="`400px`"/> -->
         <!-- <mon-video :src="`https://www.runoob.com/try/demo_source/mov_bbb.mp4`" :width="`800px`" /> -->
 
         <!-- <mon-checkbox-img :list="imgs" v-model="img.path" /> -->
-        <mon-redio-img :list="imgs" v-model="img.path2" />
-
+        <!-- <mon-radio-img :list="imgs" v-model="img.path2" /> -->
 
         <div>
             <button @click="getData()">Get Data</button>
+            <button @click="img.path = ['1','8']">Set Data</button>
         </div>
     </div>
 </template>
 <script>
-// import MonCheckboxImg from "ant-components/MonCheckboxImg";
+import {MonToast as Toast} from 'components';
 export default {
-    // components: { MonCheckboxImg },
     data() {
         return {
-            show: true,
+            show: false,
             p: 1,
             imgs: [
                 {
                     img:
-                        "https://www.jq22.com/demo/selectImg201705242355/images/4.png",
-                    title: "1.png",
+                        "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2350660822,4130966655&fm=26&gp=0.jpg",
+                    title: "爱德华法兰克福很拉风流口水东方红",
                     value: "1"
                 },
                 {
                     img:
-                        "https://www.jq22.com/demo/selectImg201705242355/images/5.png",
+                        "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3638032789,1833523001&fm=26&gp=0.jpg",
                     title: "2.png",
                     value: "2"
                 },
                 {
                     img:
-                        "https://www.jq22.com/demo/selectImg201705242355/images/6.png",
+                        "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2477792578,2670915805&fm=11&gp=0.jpg",
                     title: "6.png",
                     value: "8"
                 }
             ],
             img: {
                 path: [],
-                path2: ''
+                path2: ""
             }
         };
     },
@@ -64,8 +63,11 @@ export default {
         open() {
             location.href = "http://baidu.com";
         },
-        getData(){
-            console.log(this.img)
+        getData() {
+            this.$Toast.send('达健身房这是上岛咖啡')
+            // Toast.send('达健身房这是上岛咖啡', {type: 'bottom'})
+            // console.log(this.img);
+            // this.show = !this.show;
         }
     }
 };
@@ -76,5 +78,7 @@ export default {
     height: 3000px;
     text-align: center;
     color: #2c3e50;
+    font-size: 14px;
 }
+
 </style>

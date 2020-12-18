@@ -1,5 +1,5 @@
 'use strict'
-const WebpackCdnPlugin = require('webpack-cdn-plugin');
+// const WebpackCdnPlugin = require('webpack-cdn-plugin');
 const Webpack = require('webpack');
 const isProduction = process.env.NODE_ENV === 'production'
 const path = require('path')

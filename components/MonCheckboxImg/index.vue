@@ -1,19 +1,22 @@
 <template>
-    <a-row style="height: 100%">
-        <a-col :xs="12" :sm="6" :md="4" v-for="(item, index) in list" :key="index">
+    <div class="img-select-row">
+        <div
+            class="img-select-row-col-12 img-select-row-col-sm-6 img-select-row-col-md-4"
+            v-for="(item, index) in list"
+            :key="index"
+        >
             <div
                 :class="['img-select', (disabled ? 'allowed' : 'pointer')]"
-                @click="redioImg(item.value)"
+                @click="checkboxImg(item.value)"
+                :title="item.title"
             >
                 <div class="img-select-img">
-                    <mon-img :src="item.img" :alt="item.title" />
+                    <mon-img :src="item.img" :alt="item.title" :width="width" :height="height" />
                 </div>
                 <div
-                    :class="['img-select-title', [(selected == item.value && selected != null) ? 'img-select-selected' : '']]"
+                    :class="['img-select-title', [(selected.includes(item.value)) ? 'img-select-selected' : '']]"
                 >{{item.title}}</div>
-                <div
-                    :class="[(selected == item.value && selected != null) ? 'img-select-active' : 'hidden']"
-                >
+                <div :class="[(selected.includes(item.value)) ? 'img-select-active' : 'hidden']">
                     <svg
                         t="1608114556145"
                         class="icon"
@@ -32,14 +35,14 @@
                     </svg>
                 </div>
             </div>
-        </a-col>
-    </a-row>
+        </div>
+    </div>
 </template>
 
 <script>
 import MonImg from "../MonImg";
 export default {
-    name: "MonRedioImg",
+    name: "MonCheckboxImg",
     components: { MonImg },
     props: {
         // [{ img: 'images/1.png', 'title': '1.png', value: '1' },{ img: 'images/2.png', 'title': '2.png', value: '2' }]
@@ -53,9 +56,19 @@ export default {
             type: Boolean,
             default: false
         },
-        value: {
+        width: {
             type: String,
             default: null
+        },
+        height: {
+            type: String,
+            default: null
+        },
+        value: {
+            type: Array,
+            default: () => {
+                return [];
+            }
         }
     },
     data() {
@@ -69,16 +82,19 @@ export default {
             handler(val) {
                 this.$emit("input", val);
             }
+        },
+        value(val) {
+            this.selected = val;
         }
     },
     methods: {
         // 图片单选
-        redioImg(index) {
+        checkboxImg(index) {
             if (!this.disabled) {
-                if (this.selected == index) {
-                    this.selected = null;
+                if (this.selected.includes(index)) {
+                    this.selected = this.selected.filter(v => v != index);
                 } else {
-                    this.selected = index;
+                    this.selected.push(index);
                 }
             }
         }
@@ -87,6 +103,58 @@ export default {
 </script>
 
 <style lang="less" scoped>
+.img-select-row {
+    zoom: 1;
+    display: block;
+    margin-right: 0;
+    margin-left: 0;
+    position: relative;
+    box-sizing: border-box;
+
+    &::before,
+    &::after {
+        content: "";
+        display: block;
+        height: 0;
+        width: 0;
+        visibility: hidden;
+        clear: both;
+    }
+
+    &-col-12,
+    &-col-sm-6,
+    &-col-md-4 {
+        position: relative;
+        width: 100%;
+        float: left;
+    }
+
+    &-col-12 {
+        -ms-flex: 0 0 50%;
+        flex: 0 0 50%;
+        max-width: 50%;
+    }
+}
+
+@media (min-width: 576px) {
+    .img-select-row {
+        &-col-sm-6 {
+            -ms-flex: 0 0 25%;
+            flex: 0 0 25%;
+            max-width: 25%;
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .img-select-row {
+        &-col-md-4 {
+            -ms-flex: 0 0 16.666666%;
+            flex: 0 0 16.666666%;
+            max-width: 16.666666%;
+        }
+    }
+}
 .img-select {
     margin: 6px;
     padding: 0;
@@ -125,6 +193,9 @@ export default {
         color: #fff;
         bottom: 0;
         width: 100%;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
 
         &.img-select-selected {
             color: rgb(26, 250, 41);

@@ -13,6 +13,12 @@
 
 - 更新文档，补充图片单选、多选禁用功能
 
+> v1.0.3
+
+- 优化代码结构
+- 增加移动端Toast组件
+- 优惠mon-ui样式库
+
 
 ## 回到顶部组件
 
@@ -386,7 +392,7 @@ this.$toastr.send("Hello mon-util");
 ### 模板语法
 
 ```vue
-<mon-redio-img :list="arr" v-model="str"></mon-redio-img>
+<mon-radio-img :list="arr" v-model="str"></mon-radio-img>
 ```
 
 ### API

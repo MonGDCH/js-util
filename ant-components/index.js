@@ -2,11 +2,11 @@ import DatePicker from './MonDatePicker'
 import MonthPicker from './MonMonthPicker'
 import RangePicker from './MonRangePicker'
 import TimePicker from './MonTimePicker'
-import Video from './MonVideo'
-import Word from './MonWord'
-import Img from './MonImg'
-import CheckboxImg from './MonCheckboxImg'
-import RedioImg from './MonRedioImg'
+import Video from '../components/MonVideo'
+import Word from '../components/MonWord'
+import Img from '../components/MonImg'
+import CheckboxImg from '../components/MonCheckboxImg'
+import RadioImg from '../components/MonRadioImg'
 
 
 const components = [
@@ -18,9 +18,8 @@ const components = [
     Word,
     Img,
     CheckboxImg,
-    RedioImg,
+    RadioImg,
 ];
-
 
 // vue安装方法
 const _install = function (Vue) {
@@ -35,7 +34,7 @@ const _install = function (Vue) {
 }
 
 // 判断是否是直接引入文件
-if (typeof window !== "undefined" && window.Vue) {
+if (typeof window != "undefined" && window.Vue) {
     _install(window.Vue);
 }
 
@@ -54,7 +53,7 @@ export const MonWord = Word
 // 图片
 export const MonImg = Img
 // 图片单选
-export const MonRedioImg = RedioImg
+export const MonRadioImg = RadioImg
 // 图片多选
 export const MonCheckboxImg = CheckboxImg
 
@@ -68,6 +67,6 @@ export default {
     'MonVideo': MonVideo,
     'MonWord': MonWord,
     'MonImg': MonImg,
-    'MonRedioImg': MonRedioImg,
+    'MonRadioImg': MonRadioImg,
     'MonCheckboxImg': MonCheckboxImg,
 }

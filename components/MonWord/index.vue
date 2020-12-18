@@ -65,8 +65,7 @@ export default {
 
 <style scoped>
 .mon-word {
-    min-height: 24px;
-    line-height: 1.6;
+    line-height: 1.5;
     background: #ffffff;
     padding: 0px 6px;
 }
