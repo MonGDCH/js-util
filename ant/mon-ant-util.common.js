@@ -1010,6 +1010,21 @@ module.exports = function (exec) {
 
 /***/ }),
 
+/***/ "7c82":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("9c58");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("5fe09b05", content, true, {"sourceMap":false,"shadowMode":false});
+
+/***/ }),
+
 /***/ "7f7f":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1122,6 +1137,17 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 /***/ }),
 
+/***/ "91a4":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_3_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_6d360f9c_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("7c82");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_3_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_6d360f9c_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_3_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_6d360f9c_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
 /***/ "94b9":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1156,6 +1182,21 @@ module.exports = function (fn, that, length) {
     return fn.apply(that, arguments);
   };
 };
+
+
+/***/ }),
+
+/***/ "9c58":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".ant-cascader-picker[data-v-6d360f9c]{min-width:240px;text-align:left}", ""]);
+
+// exports
 
 
 /***/ }),
@@ -1659,6 +1700,7 @@ __webpack_require__.d(__webpack_exports__, "MonWord", function() { return /* ree
 __webpack_require__.d(__webpack_exports__, "MonImg", function() { return /* reexport */ ant_components_MonImg; });
 __webpack_require__.d(__webpack_exports__, "MonRadioImg", function() { return /* reexport */ ant_components_MonRadioImg; });
 __webpack_require__.d(__webpack_exports__, "MonCheckboxImg", function() { return /* reexport */ ant_components_MonCheckboxImg; });
+__webpack_require__.d(__webpack_exports__, "MonAddress", function() { return /* reexport */ ant_components_MonAddress_0; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -2966,6 +3008,183 @@ MonRadioImg.install = function (Vue) {
 };
 
 /* harmony default export */ var components_MonRadioImg = (MonRadioImg);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3c4ff8c1-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./ant-components/MonAddress/index.vue?vue&type=template&id=6d360f9c&scoped=true&
+var MonAddressvue_type_template_id_6d360f9c_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"mon-address"},[_c('a-cascader',{attrs:{"allowClear":_vm.allowClear,"placeholder":_vm.placeholder,"disabled":_vm.disabled,"size":_vm.size,"options":_vm.options,"load-data":_vm.loadData},on:{"change":_vm.onChange}})],1)}
+var MonAddressvue_type_template_id_6d360f9c_scoped_true_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./ant-components/MonAddress/index.vue?vue&type=template&id=6d360f9c&scoped=true&
+
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+
+  for (var i = 0, arr2 = new Array(len); i < len; i++) {
+    arr2[i] = arr[i];
+  }
+
+  return arr2;
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayWithoutHoles.js
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/iterableToArray.js
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/unsupportedIterableToArray.js
+
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/nonIterableSpread.js
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+// CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/toConsumableArray.js
+
+
+
+
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+}
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./ant-components/MonAddress/index.vue?vue&type=script&lang=js&
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+// window.addressApi = "http://demo.test/getLocation";
+/* harmony default export */ var MonAddressvue_type_script_lang_js_ = ({
+  name: "MonAddress",
+  props: {
+    /*值*/
+    value: {
+      type: Array,
+      default: function _default() {
+        return [];
+      }
+    },
+
+    /*是否展示清除按钮*/
+    allowClear: {
+      type: Boolean,
+      default: true
+    },
+
+    /*禁用全部操作*/
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+
+    /*没有值的时候显示的内容*/
+    placeholder: {
+      type: String,
+      default: "请选择省份城市地址"
+    },
+
+    /*文本框大小*/
+    size: {
+      type: String,
+      default: "default"
+    }
+  },
+  data: function data() {
+    return {
+      options: []
+    };
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    fetch(window.addressApi + "/0").then(function (res) {
+      return res.json();
+    }).then(function (data) {
+      if (data.code == "1") {
+        _this.options = data.data;
+      }
+    }).catch(function (e) {
+      console.error(e);
+    });
+  },
+  methods: {
+    onChange: function onChange(value) {
+      this.$emit("input", value);
+    },
+    loadData: function loadData(selectedOptions) {
+      var _this2 = this;
+
+      var targetOption = selectedOptions[selectedOptions.length - 1];
+      var queryType = targetOption.type < 2 ? targetOption.type + 1 : targetOption.type;
+      var queryCode = targetOption.code;
+      targetOption.loading = true;
+      fetch(window.addressApi + "/" + queryType + "/" + queryCode).then(function (res) {
+        return res.json();
+      }).then(function (data) {
+        if (data.code == "1") {
+          targetOption.loading = false;
+          targetOption.children = data.data;
+          _this2.options = _toConsumableArray(_this2.options);
+        }
+      }).catch(function (e) {
+        console.error(e);
+      });
+    }
+  }
+});
+// CONCATENATED MODULE: ./ant-components/MonAddress/index.vue?vue&type=script&lang=js&
+ /* harmony default export */ var ant_components_MonAddressvue_type_script_lang_js_ = (MonAddressvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./ant-components/MonAddress/index.vue?vue&type=style&index=0&id=6d360f9c&lang=less&scoped=true&
+var MonAddressvue_type_style_index_0_id_6d360f9c_lang_less_scoped_true_ = __webpack_require__("91a4");
+
+// CONCATENATED MODULE: ./ant-components/MonAddress/index.vue
+
+
+
+
+
+
+/* normalize component */
+
+var MonAddress_component = normalizeComponent(
+  ant_components_MonAddressvue_type_script_lang_js_,
+  MonAddressvue_type_template_id_6d360f9c_scoped_true_render,
+  MonAddressvue_type_template_id_6d360f9c_scoped_true_staticRenderFns,
+  false,
+  null,
+  "6d360f9c",
+  null
+  
+)
+
+/* harmony default export */ var MonAddress = (MonAddress_component.exports);
+// CONCATENATED MODULE: ./ant-components/MonAddress/index.js
+
+
+
+MonAddress.install = function (Vue) {
+  Vue.component(MonAddress.name, MonAddress);
+};
+
+/* harmony default export */ var ant_components_MonAddress = (MonAddress);
 // CONCATENATED MODULE: ./ant-components/index.js
 
 
@@ -2977,7 +3196,8 @@ MonRadioImg.install = function (Vue) {
 
 
 
-var components = [ant_components_MonMonthPicker, ant_components_MonRangePicker, ant_components_MonDatePicker, ant_components_MonTimePicker, components_MonVideo, components_MonWord, components_MonImg, components_MonCheckboxImg, components_MonRadioImg]; // vue安装方法
+
+var components = [ant_components_MonMonthPicker, ant_components_MonRangePicker, ant_components_MonDatePicker, ant_components_MonTimePicker, components_MonVideo, components_MonWord, components_MonImg, components_MonCheckboxImg, components_MonRadioImg, ant_components_MonAddress]; // vue安装方法
 
 var _install = function _install(Vue) {
   // 判断是否安装
@@ -3013,7 +3233,9 @@ var ant_components_MonImg = components_MonImg; // 图片单选
 
 var ant_components_MonRadioImg = components_MonRadioImg; // 图片多选
 
-var ant_components_MonCheckboxImg = components_MonCheckboxImg; // 默认导出
+var ant_components_MonCheckboxImg = components_MonCheckboxImg; // 地址
+
+var ant_components_MonAddress_0 = ant_components_MonAddress; // 默认导出
 
 /* harmony default export */ var ant_components = ({
   'install': _install,
@@ -3025,7 +3247,8 @@ var ant_components_MonCheckboxImg = components_MonCheckboxImg; // 默认导出
   'MonWord': ant_components_MonWord,
   'MonImg': ant_components_MonImg,
   'MonRadioImg': ant_components_MonRadioImg,
-  'MonCheckboxImg': ant_components_MonCheckboxImg
+  'MonCheckboxImg': ant_components_MonCheckboxImg,
+  'MonAddress': ant_components_MonAddress_0
 });
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
 

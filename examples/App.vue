@@ -15,6 +15,8 @@
         <!-- <mon-checkbox-img :list="imgs" v-model="img.path" /> -->
         <!-- <mon-radio-img :list="imgs" v-model="img.path2" /> -->
 
+        <mon-address v-model="address" />
+
         <div>
             <button @click="getData()">Get Data</button>
             <button @click="img.path = ['1','8']">Set Data</button>
@@ -22,7 +24,7 @@
     </div>
 </template>
 <script>
-import {MonToast as Toast} from 'components';
+import { MonToast as Toast } from "components";
 export default {
     data() {
         return {
@@ -51,7 +53,8 @@ export default {
             img: {
                 path: [],
                 path2: ""
-            }
+            },
+            address: []
         };
     },
     mounted() {
@@ -64,7 +67,8 @@ export default {
             location.href = "http://baidu.com";
         },
         getData() {
-            this.$Toast.send('达健身房这是上岛咖啡')
+            console.log(this.address)
+            // this.$Toast.send("达健身房这是上岛咖啡");
             // Toast.send('达健身房这是上岛咖啡', {type: 'bottom'})
             // console.log(this.img);
             // this.show = !this.show;
@@ -80,5 +84,4 @@ export default {
     color: #2c3e50;
     font-size: 14px;
 }
-
 </style>

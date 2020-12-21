@@ -354,7 +354,7 @@ export default {
 .weekday {
     display: inline-block;
     font-size: 14px;
-    width: 30px;
+    width: 28px;
     /* color: #c5c8ce; */
     color: #aaaaaa;
     text-align: center;
@@ -392,7 +392,7 @@ ul {
 .date-list {
     width: 210px;
     text-align: left;
-    height: 180px;
+    height: 168px;
     overflow: hidden;
     margin-top: 4px;
 }

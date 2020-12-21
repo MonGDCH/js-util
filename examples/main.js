@@ -27,12 +27,12 @@ import App from './App.vue'
 // Vue.use(toastr)
 
 
-import monComponent from 'components'
-Vue.use(monComponent)
-console.log(monComponent)
+// import monComponent from 'components'
+// Vue.use(monComponent)
+// console.log(monComponent)
 
-// import ant from 'ant-components'
-// Vue.use(ant)
+import ant from 'ant-components'
+Vue.use(ant)
 
 Vue.config.productionTip = false
 new Vue({

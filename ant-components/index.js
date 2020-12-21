@@ -7,6 +7,7 @@ import Word from '../components/MonWord'
 import Img from '../components/MonImg'
 import CheckboxImg from '../components/MonCheckboxImg'
 import RadioImg from '../components/MonRadioImg'
+import Address from './MonAddress'
 
 
 const components = [
@@ -19,6 +20,7 @@ const components = [
     Img,
     CheckboxImg,
     RadioImg,
+    Address
 ];
 
 // vue安装方法
@@ -56,6 +58,8 @@ export const MonImg = Img
 export const MonRadioImg = RadioImg
 // 图片多选
 export const MonCheckboxImg = CheckboxImg
+// 地址
+export const MonAddress = Address
 
 // 默认导出
 export default {
@@ -69,4 +73,5 @@ export default {
     'MonImg': MonImg,
     'MonRadioImg': MonRadioImg,
     'MonCheckboxImg': MonCheckboxImg,
+    'MonAddress': MonAddress,
 }
