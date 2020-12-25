@@ -15,6 +15,7 @@ import Word from './MonWord'
 import Img from './MonImg'
 import RadioIImg from './MonRadioImg'
 import CheckboxImg from './MonCheckboxImg'
+import Location from './MonLocation'
 
 const components = [
     BackTop,
@@ -29,7 +30,8 @@ const components = [
     Word,
     Img,
     RadioIImg,
-    CheckboxImg
+    CheckboxImg,
+    Location
 ];
 
 const uses = [
@@ -94,6 +96,8 @@ export const MonImg = Img
 export const MonRadioIImg = RadioIImg
 // 图片多选
 export const MonCheckboxImg = CheckboxImg
+// 获取地理位置
+export const MonLocation = Location
 
 // 默认导出
 export default {
@@ -116,4 +120,5 @@ export default {
     'MonRadioIImg': MonRadioIImg,
     'MonCheckboxImg': MonCheckboxImg,
     'MonToast': MonToast,
+    'MonLocation': MonLocation,
 };

@@ -9,36 +9,50 @@
             :load-data="loadData"
             @change="onChange"
         />
+        <a-input
+            v-if="detailed"
+            v-model="address"
+            :placeholder="detailedPlaceholder"
+            :disabled="disabled"
+            :allowClear="allowClear"
+            :size="size"
+        />
     </div>
 </template>
 <script>
-// window.addressApi = "http://demo.test/getLocation";
+window.addressApi = "http://demo.test/getLocation";
 export default {
     name: "MonAddress",
     props: {
-        /*值*/
+        // 值 v-model
         value: {
-            type: Array,
-            default: () => {
-                return [];
-            }
+            required: true
         },
-        /*是否展示清除按钮*/
+        // 显示详细地址输入框
+        detailed: {
+            type: Boolean,
+            default: true
+        },
+        // 是否展示清除按钮
         allowClear: {
             type: Boolean,
             default: true
         },
-        /*禁用全部操作*/
+        // 禁用全部操作
         disabled: {
             type: Boolean,
             default: false
         },
-        /*没有值的时候显示的内容*/
+        // 没有值的时候显示的内容
         placeholder: {
             type: String,
             default: "请选择省份城市地址"
         },
-        /*文本框大小*/
+        detailedPlaceholder: {
+            type: String,
+            default: "详细地址"
+        },
+        // 文本框大小
         size: {
             type: String,
             default: "default"
@@ -46,7 +60,9 @@ export default {
     },
     data() {
         return {
-            options: []
+            options: [],
+            location: "",
+            address: ""
         };
     },
     mounted() {
@@ -63,10 +79,21 @@ export default {
                 console.error(e);
             });
     },
+    watch: {
+        address(val) {
+            this.$emit("input", this.location + val);
+        }
+    },
     methods: {
+        // 选择地址
         onChange(value) {
-            this.$emit("input", value);
+            this.location = value.join("");
+            let address = this.detailed
+                ? this.location + this.address
+                : this.location;
+            this.$emit("input", address);
         },
+        // 加载数据
         loadData(selectedOptions) {
             const targetOption = selectedOptions[selectedOptions.length - 1];
             const queryType =
@@ -94,9 +121,10 @@ export default {
     }
 };
 </script>
-<style lang="less" scoped>
+<style scoped>
 .ant-cascader-picker {
     min-width: 240px;
+    width: 100%;
     text-align: left;
 }
 </style>

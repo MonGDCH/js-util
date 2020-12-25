@@ -96,6 +96,38 @@ return /******/ (function(modules) { // webpackBootstrap
 /************************************************************************/
 /******/ ({
 
+/***/ "05b7":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_735d25d0_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("a008");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_735d25d0_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_6_oneOf_1_0_node_modules_css_loader_index_js_ref_6_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_6_oneOf_1_3_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_735d25d0_scoped_true_lang_css___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
+
+
+/***/ }),
+
+/***/ "0bfb":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+// 21.2.5.3 get RegExp.prototype.flags
+var anObject = __webpack_require__("cb7c");
+module.exports = function () {
+  var that = anObject(this);
+  var result = '';
+  if (that.global) result += 'g';
+  if (that.ignoreCase) result += 'i';
+  if (that.multiline) result += 'm';
+  if (that.unicode) result += 'u';
+  if (that.sticky) result += 'y';
+  return result;
+};
+
+
+/***/ }),
+
 /***/ "0d58":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -164,6 +196,110 @@ exports = module.exports = __webpack_require__("2350")(false);
 exports.push([module.i, ".mon-video[data-v-263ac58a]{padding:0;margin:0;width:100%;text-align:center}", ""]);
 
 // exports
+
+
+/***/ }),
+
+/***/ "214f":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+__webpack_require__("b0c5");
+var redefine = __webpack_require__("2aba");
+var hide = __webpack_require__("32e9");
+var fails = __webpack_require__("79e5");
+var defined = __webpack_require__("be13");
+var wks = __webpack_require__("2b4c");
+var regexpExec = __webpack_require__("520a");
+
+var SPECIES = wks('species');
+
+var REPLACE_SUPPORTS_NAMED_GROUPS = !fails(function () {
+  // #replace needs built-in support for named groups.
+  // #match works fine because it just return the exec results, even if it has
+  // a "grops" property.
+  var re = /./;
+  re.exec = function () {
+    var result = [];
+    result.groups = { a: '7' };
+    return result;
+  };
+  return ''.replace(re, '$<a>') !== '7';
+});
+
+var SPLIT_WORKS_WITH_OVERWRITTEN_EXEC = (function () {
+  // Chrome 51 has a buggy "split" implementation when RegExp#exec !== nativeExec
+  var re = /(?:)/;
+  var originalExec = re.exec;
+  re.exec = function () { return originalExec.apply(this, arguments); };
+  var result = 'ab'.split(re);
+  return result.length === 2 && result[0] === 'a' && result[1] === 'b';
+})();
+
+module.exports = function (KEY, length, exec) {
+  var SYMBOL = wks(KEY);
+
+  var DELEGATES_TO_SYMBOL = !fails(function () {
+    // String methods call symbol-named RegEp methods
+    var O = {};
+    O[SYMBOL] = function () { return 7; };
+    return ''[KEY](O) != 7;
+  });
+
+  var DELEGATES_TO_EXEC = DELEGATES_TO_SYMBOL ? !fails(function () {
+    // Symbol-named RegExp methods call .exec
+    var execCalled = false;
+    var re = /a/;
+    re.exec = function () { execCalled = true; return null; };
+    if (KEY === 'split') {
+      // RegExp[@@split] doesn't call the regex's exec method, but first creates
+      // a new one. We need to return the patched regex when creating the new one.
+      re.constructor = {};
+      re.constructor[SPECIES] = function () { return re; };
+    }
+    re[SYMBOL]('');
+    return !execCalled;
+  }) : undefined;
+
+  if (
+    !DELEGATES_TO_SYMBOL ||
+    !DELEGATES_TO_EXEC ||
+    (KEY === 'replace' && !REPLACE_SUPPORTS_NAMED_GROUPS) ||
+    (KEY === 'split' && !SPLIT_WORKS_WITH_OVERWRITTEN_EXEC)
+  ) {
+    var nativeRegExpMethod = /./[SYMBOL];
+    var fns = exec(
+      defined,
+      SYMBOL,
+      ''[KEY],
+      function maybeCallNative(nativeMethod, regexp, str, arg2, forceStringMethod) {
+        if (regexp.exec === regexpExec) {
+          if (DELEGATES_TO_SYMBOL && !forceStringMethod) {
+            // The native String method already delegates to @@method (this
+            // polyfilled function), leasing to infinite recursion.
+            // We avoid it by directly calling the native @@method method.
+            return { done: true, value: nativeRegExpMethod.call(regexp, str, arg2) };
+          }
+          return { done: true, value: nativeMethod.call(str, regexp, arg2) };
+        }
+        return { done: false };
+      }
+    );
+    var strfn = fns[0];
+    var rxfn = fns[1];
+
+    redefine(String.prototype, KEY, strfn);
+    hide(RegExp.prototype, SYMBOL, length == 2
+      // 21.2.5.8 RegExp.prototype[@@replace](string, replaceValue)
+      // 21.2.5.11 RegExp.prototype[@@split](string, limit)
+      ? function (string, arg) { return rxfn.call(string, this, arg); }
+      // 21.2.5.6 RegExp.prototype[@@match](string)
+      // 21.2.5.9 RegExp.prototype[@@search](string)
+      : function (string) { return rxfn.call(string, this); }
+    );
+  }
+};
 
 
 /***/ }),
@@ -261,6 +397,51 @@ function toComment(sourceMap) {
 
 	return '/*# ' + data + ' */';
 }
+
+
+/***/ }),
+
+/***/ "23c6":
+/***/ (function(module, exports, __webpack_require__) {
+
+// getting tag from 19.1.3.6 Object.prototype.toString()
+var cof = __webpack_require__("2d95");
+var TAG = __webpack_require__("2b4c")('toStringTag');
+// ES3 wrong here
+var ARG = cof(function () { return arguments; }()) == 'Arguments';
+
+// fallback for IE11 Script Access Denied error
+var tryGet = function (it, key) {
+  try {
+    return it[key];
+  } catch (e) { /* empty */ }
+};
+
+module.exports = function (it) {
+  var O, T, B;
+  return it === undefined ? 'Undefined' : it === null ? 'Null'
+    // @@toStringTag case
+    : typeof (T = tryGet(O = Object(it), TAG)) == 'string' ? T
+    // builtinTag case
+    : ARG ? cof(O)
+    // ES3 arguments fallback
+    : (B = cof(O)) == 'Object' && typeof O.callee == 'function' ? 'Arguments' : B;
+};
+
+
+/***/ }),
+
+/***/ "2843":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".ant-cascader-picker[data-v-735d25d0]{min-width:240px;width:100%;text-align:left}", ""]);
+
+// exports
 
 
 /***/ }),
@@ -435,6 +616,45 @@ module.exports = __webpack_require__("9e1e") ? function (object, key, value) {
   object[key] = value;
   return object;
 };
+
+
+/***/ }),
+
+/***/ "386d":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var anObject = __webpack_require__("cb7c");
+var sameValue = __webpack_require__("83a1");
+var regExpExec = __webpack_require__("5f1b");
+
+// @@search logic
+__webpack_require__("214f")('search', 1, function (defined, SEARCH, $search, maybeCallNative) {
+  return [
+    // `String.prototype.search` method
+    // https://tc39.github.io/ecma262/#sec-string.prototype.search
+    function search(regexp) {
+      var O = defined(this);
+      var fn = regexp == undefined ? undefined : regexp[SEARCH];
+      return fn !== undefined ? fn.call(regexp, O) : new RegExp(regexp)[SEARCH](String(O));
+    },
+    // `RegExp.prototype[@@search]` method
+    // https://tc39.github.io/ecma262/#sec-regexp.prototype-@@search
+    function (regexp) {
+      var res = maybeCallNative($search, regexp, this);
+      if (res.done) return res.value;
+      var rx = anObject(regexp);
+      var S = String(this);
+      var previousLastIndex = rx.lastIndex;
+      if (!sameValue(previousLastIndex, 0)) rx.lastIndex = 0;
+      var result = regExpExec(rx, S);
+      if (!sameValue(rx.lastIndex, previousLastIndex)) rx.lastIndex = previousLastIndex;
+      return result === null ? -1 : result.index;
+    }
+  ];
+});
 
 
 /***/ }),
@@ -767,6 +987,72 @@ module.exports = function (KEY) {
 
 /***/ }),
 
+/***/ "520a":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var regexpFlags = __webpack_require__("0bfb");
+
+var nativeExec = RegExp.prototype.exec;
+// This always refers to the native implementation, because the
+// String#replace polyfill uses ./fix-regexp-well-known-symbol-logic.js,
+// which loads this file before patching the method.
+var nativeReplace = String.prototype.replace;
+
+var patchedExec = nativeExec;
+
+var LAST_INDEX = 'lastIndex';
+
+var UPDATES_LAST_INDEX_WRONG = (function () {
+  var re1 = /a/,
+      re2 = /b*/g;
+  nativeExec.call(re1, 'a');
+  nativeExec.call(re2, 'a');
+  return re1[LAST_INDEX] !== 0 || re2[LAST_INDEX] !== 0;
+})();
+
+// nonparticipating capturing group, copied from es5-shim's String#split patch.
+var NPCG_INCLUDED = /()??/.exec('')[1] !== undefined;
+
+var PATCH = UPDATES_LAST_INDEX_WRONG || NPCG_INCLUDED;
+
+if (PATCH) {
+  patchedExec = function exec(str) {
+    var re = this;
+    var lastIndex, reCopy, match, i;
+
+    if (NPCG_INCLUDED) {
+      reCopy = new RegExp('^' + re.source + '$(?!\\s)', regexpFlags.call(re));
+    }
+    if (UPDATES_LAST_INDEX_WRONG) lastIndex = re[LAST_INDEX];
+
+    match = nativeExec.call(re, str);
+
+    if (UPDATES_LAST_INDEX_WRONG && match) {
+      re[LAST_INDEX] = re.global ? match.index + match[0].length : lastIndex;
+    }
+    if (NPCG_INCLUDED && match && match.length > 1) {
+      // Fix browsers whose `exec` methods don't consistently return `undefined`
+      // for NPCG, like IE8. NOTE: This doesn' work for /(.?)?/
+      // eslint-disable-next-line no-loop-func
+      nativeReplace.call(match[0], reCopy, function () {
+        for (i = 1; i < arguments.length - 2; i++) {
+          if (arguments[i] === undefined) match[i] = undefined;
+        }
+      });
+    }
+
+    return match;
+  };
+}
+
+module.exports = patchedExec;
+
+
+/***/ }),
+
 /***/ "52a7":
 /***/ (function(module, exports) {
 
@@ -860,6 +1146,35 @@ module.exports = function (that, target, C) {
 
 /***/ }),
 
+/***/ "5f1b":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var classof = __webpack_require__("23c6");
+var builtinExec = RegExp.prototype.exec;
+
+ // `RegExpExec` abstract operation
+// https://tc39.github.io/ecma262/#sec-regexpexec
+module.exports = function (R, S) {
+  var exec = R.exec;
+  if (typeof exec === 'function') {
+    var result = exec.call(R, S);
+    if (typeof result !== 'object') {
+      throw new TypeError('RegExp exec method returned something other than an Object or null');
+    }
+    return result;
+  }
+  if (classof(R) !== 'RegExp') {
+    throw new TypeError('RegExp#exec called on incompatible receiver');
+  }
+  return builtinExec.call(R, S);
+};
+
+
+/***/ }),
+
 /***/ "613b":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -948,6 +1263,36 @@ module.exports = function (it, S) {
 
 /***/ }),
 
+/***/ "6d1f":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("6fb5");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("9226cdac", content, true, {"sourceMap":false,"shadowMode":false});
+
+/***/ }),
+
+/***/ "6fb5":
+/***/ (function(module, exports, __webpack_require__) {
+
+exports = module.exports = __webpack_require__("2350")(false);
+// imports
+
+
+// module
+exports.push([module.i, ".mon-location[data-v-79cdc6f7]{padding:0;margin:0}.mon-location .mon-location-get[data-v-79cdc6f7]{width:200px;background:#007bff;color:#fff;display:inline-block;padding:6px 16px;cursor:pointer;border-radius:4px;font-size:14px}.mon-location .mon-location-get svg[data-v-79cdc6f7]{position:relative;top:2px}.mon-location .mon-location-get[data-v-79cdc6f7]:hover{background:#27a9e3}.mon-location .mon-location-get[data-v-79cdc6f7]:active{background:#2875e8}.mon-location .mon-map[data-v-79cdc6f7]{width:100%;margin:0;padding:0;font-size:14px;color:#333}.mon-location .mon-map .mon-map-footer[data-v-79cdc6f7],.mon-location .mon-map .mon-map-header[data-v-79cdc6f7]{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-pack:justify;-ms-flex-pack:justify;justify-content:space-between;-webkit-box-align:center;-ms-flex-align:center;align-items:center;background:#fff;width:100%;height:60px;text-align:left;padding:4px 8px;position:relative}.mon-location .mon-map .mon-map-container[data-v-79cdc6f7]{width:100%;height:360px}.mon-location .mon-map .mon-map-btn[data-v-79cdc6f7]{padding:6px 10px;background:#ebebeb;border-radius:4px;cursor:pointer;border:0;outline:0}.mon-location .mon-map .mon-map-btn[data-v-79cdc6f7]:hover{background:#cbcbcb}.mon-location .mon-map .mon-map-btn[data-v-79cdc6f7]:active,.mon-location .mon-map .mon-map-btn[data-v-79cdc6f7]:focus{background:#aaa}.mon-location .mon-map .mon-map-footer-search[data-v-79cdc6f7]{min-width:60%;position:relative}.mon-location .mon-map .mon-map-input[data-v-79cdc6f7]{outline:0;height:33px;padding:4px 8px;border:1px solid #ddd;min-width:220px;width:100%;font-size:14px;padding-right:36px}.mon-location .mon-map .mon-map-input[data-v-79cdc6f7]:focus{border-color:#2875e8}.mon-location .mon-map .mon-map-input-search[data-v-79cdc6f7]{display:inline-block;height:32px;line-height:32px;font-size:14px;padding:4px 8px 0 8px;text-align:center;border-left:1px solid #ddd;position:absolute;top:0;right:0;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}.mon-location .mon-map .mon-map-input-search[data-v-79cdc6f7]:active{background:#eee}", ""]);
+
+// exports
+
+
+/***/ }),
+
 /***/ "7385":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1019,21 +1364,6 @@ module.exports = function (exec) {
 
 /***/ }),
 
-/***/ "7c82":
-/***/ (function(module, exports, __webpack_require__) {
-
-// style-loader: Adds some css to the DOM by adding a <style> tag
-
-// load the styles
-var content = __webpack_require__("9c58");
-if(typeof content === 'string') content = [[module.i, content, '']];
-if(content.locals) module.exports = content.locals;
-// add the styles to the DOM
-var add = __webpack_require__("499e").default
-var update = add("5fe09b05", content, true, {"sourceMap":false,"shadowMode":false});
-
-/***/ }),
-
 /***/ "7f7f":
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1073,6 +1403,18 @@ NAME in FProto || __webpack_require__("9e1e") && dP(FProto, NAME, {
 
 var core = module.exports = { version: '2.6.12' };
 if (typeof __e == 'number') __e = core; // eslint-disable-line no-undef
+
+
+/***/ }),
+
+/***/ "83a1":
+/***/ (function(module, exports) {
+
+// 7.2.9 SameValue(x, y)
+module.exports = Object.is || function is(x, y) {
+  // eslint-disable-next-line no-self-compare
+  return x === y ? x !== 0 || 1 / x === 1 / y : x != x && y != y;
+};
 
 
 /***/ }),
@@ -1146,17 +1488,6 @@ exports.f = Object.getOwnPropertyNames || function getOwnPropertyNames(O) {
 
 /***/ }),
 
-/***/ "91a4":
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_3_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_6d360f9c_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("7c82");
-/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_3_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_6d360f9c_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_3_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_6d360f9c_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
-/* unused harmony reexport * */
-
-
-/***/ }),
-
 /***/ "94b9":
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -1191,21 +1522,6 @@ module.exports = function (fn, that, length) {
     return fn.apply(that, arguments);
   };
 };
-
-
-/***/ }),
-
-/***/ "9c58":
-/***/ (function(module, exports, __webpack_require__) {
-
-exports = module.exports = __webpack_require__("2350")(false);
-// imports
-
-
-// module
-exports.push([module.i, ".ant-cascader-picker[data-v-6d360f9c]{min-width:240px;text-align:left}", ""]);
-
-// exports
 
 
 /***/ }),
@@ -1245,6 +1561,21 @@ module.exports = !__webpack_require__("79e5")(function () {
   return Object.defineProperty({}, 'a', { get: function () { return 7; } }).a != 7;
 });
 
+
+/***/ }),
+
+/***/ "a008":
+/***/ (function(module, exports, __webpack_require__) {
+
+// style-loader: Adds some css to the DOM by adding a <style> tag
+
+// load the styles
+var content = __webpack_require__("2843");
+if(typeof content === 'string') content = [[module.i, content, '']];
+if(content.locals) module.exports = content.locals;
+// add the styles to the DOM
+var add = __webpack_require__("499e").default
+var update = add("c5fb0920", content, true, {"sourceMap":false,"shadowMode":false});
 
 /***/ }),
 
@@ -1307,6 +1638,23 @@ module.exports = function (it) {
   var isRegExp;
   return isObject(it) && ((isRegExp = it[MATCH]) !== undefined ? !!isRegExp : cof(it) == 'RegExp');
 };
+
+
+/***/ }),
+
+/***/ "b0c5":
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+var regexpExec = __webpack_require__("520a");
+__webpack_require__("5ca1")({
+  target: 'RegExp',
+  proto: true,
+  forced: regexpExec !== /./.exec
+}, {
+  exec: regexpExec
+});
 
 
 /***/ }),
@@ -1492,6 +1840,17 @@ if (!$Number(' 0o1') || !$Number('0b1') || $Number('+0x1')) {
 module.exports = !__webpack_require__("9e1e") && !__webpack_require__("79e5")(function () {
   return Object.defineProperty(__webpack_require__("230e")('div'), 'a', { get: function () { return 7; } }).a != 7;
 });
+
+
+/***/ }),
+
+/***/ "c6b3":
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_3_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_79cdc6f7_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__("6d1f");
+/* harmony import */ var _node_modules_vue_style_loader_index_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_3_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_79cdc6f7_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_node_modules_vue_style_loader_index_js_ref_10_oneOf_1_0_node_modules_css_loader_index_js_ref_10_oneOf_1_1_node_modules_vue_loader_lib_loaders_stylePostLoader_js_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_2_node_modules_postcss_loader_src_index_js_ref_10_oneOf_1_3_node_modules_less_loader_dist_cjs_js_ref_10_oneOf_1_4_node_modules_cache_loader_dist_cjs_js_ref_0_0_node_modules_vue_loader_lib_index_js_vue_loader_options_index_vue_vue_type_style_index_0_id_79cdc6f7_lang_less_scoped_true___WEBPACK_IMPORTED_MODULE_0__);
+/* unused harmony reexport * */
 
 
 /***/ }),
@@ -1710,6 +2069,9 @@ __webpack_require__.d(__webpack_exports__, "MonImg", function() { return /* reex
 __webpack_require__.d(__webpack_exports__, "MonRadioImg", function() { return /* reexport */ ant_components_MonRadioImg; });
 __webpack_require__.d(__webpack_exports__, "MonCheckboxImg", function() { return /* reexport */ ant_components_MonCheckboxImg; });
 __webpack_require__.d(__webpack_exports__, "MonAddress", function() { return /* reexport */ ant_components_MonAddress_0; });
+__webpack_require__.d(__webpack_exports__, "MonSwitch", function() { return /* reexport */ ant_components_MonSwitch_0; });
+__webpack_require__.d(__webpack_exports__, "MonSlider", function() { return /* reexport */ ant_components_MonSlider_0; });
+__webpack_require__.d(__webpack_exports__, "MonLocation", function() { return /* reexport */ ant_components_MonLocation; });
 
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/setPublicPath.js
 // This file is imported into lib/wc client bundles.
@@ -3017,12 +3379,12 @@ MonRadioImg.install = function (Vue) {
 };
 
 /* harmony default export */ var components_MonRadioImg = (MonRadioImg);
-// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3c4ff8c1-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./ant-components/MonAddress/index.vue?vue&type=template&id=6d360f9c&scoped=true&
-var MonAddressvue_type_template_id_6d360f9c_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"mon-address"},[_c('a-cascader',{attrs:{"allowClear":_vm.allowClear,"placeholder":_vm.placeholder,"disabled":_vm.disabled,"size":_vm.size,"options":_vm.options,"load-data":_vm.loadData},on:{"change":_vm.onChange}})],1)}
-var MonAddressvue_type_template_id_6d360f9c_scoped_true_staticRenderFns = []
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3c4ff8c1-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./ant-components/MonAddress/index.vue?vue&type=template&id=735d25d0&scoped=true&
+var MonAddressvue_type_template_id_735d25d0_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"mon-address"},[_c('a-cascader',{attrs:{"allowClear":_vm.allowClear,"placeholder":_vm.placeholder,"disabled":_vm.disabled,"size":_vm.size,"options":_vm.options,"load-data":_vm.loadData},on:{"change":_vm.onChange}}),(_vm.detailed)?_c('a-input',{attrs:{"placeholder":_vm.detailedPlaceholder,"disabled":_vm.disabled,"allowClear":_vm.allowClear,"size":_vm.size},model:{value:(_vm.address),callback:function ($$v) {_vm.address=$$v},expression:"address"}}):_vm._e()],1)}
+var MonAddressvue_type_template_id_735d25d0_scoped_true_staticRenderFns = []
 
 
-// CONCATENATED MODULE: ./ant-components/MonAddress/index.vue?vue&type=template&id=6d360f9c&scoped=true&
+// CONCATENATED MODULE: ./ant-components/MonAddress/index.vue?vue&type=template&id=735d25d0&scoped=true&
 
 // CONCATENATED MODULE: ./node_modules/@babel/runtime/helpers/esm/arrayLikeToArray.js
 function _arrayLikeToArray(arr, len) {
@@ -3080,37 +3442,47 @@ function _toConsumableArray(arr) {
 //
 //
 //
-// window.addressApi = "http://demo.test/getLocation";
+//
+//
+//
+//
+//
+//
+//
+//
+window.addressApi = "http://demo.test/getLocation";
 /* harmony default export */ var MonAddressvue_type_script_lang_js_ = ({
   name: "MonAddress",
   props: {
-    /*值*/
+    // 值 v-model
     value: {
-      type: Array,
-      default: function _default() {
-        return [];
-      }
+      required: true
     },
-
-    /*是否展示清除按钮*/
+    // 显示详细地址输入框
+    detailed: {
+      type: Boolean,
+      default: true
+    },
+    // 是否展示清除按钮
     allowClear: {
       type: Boolean,
       default: true
     },
-
-    /*禁用全部操作*/
+    // 禁用全部操作
     disabled: {
       type: Boolean,
       default: false
     },
-
-    /*没有值的时候显示的内容*/
+    // 没有值的时候显示的内容
     placeholder: {
       type: String,
       default: "请选择省份城市地址"
     },
-
-    /*文本框大小*/
+    detailedPlaceholder: {
+      type: String,
+      default: "详细地址"
+    },
+    // 文本框大小
     size: {
       type: String,
       default: "default"
@@ -3118,7 +3490,9 @@ function _toConsumableArray(arr) {
   },
   data: function data() {
     return {
-      options: []
+      options: [],
+      location: "",
+      address: ""
     };
   },
   mounted: function mounted() {
@@ -3134,10 +3508,19 @@ function _toConsumableArray(arr) {
       console.error(e);
     });
   },
+  watch: {
+    address: function address(val) {
+      this.$emit("input", this.location + val);
+    }
+  },
   methods: {
+    // 选择地址
     onChange: function onChange(value) {
-      this.$emit("input", value);
+      this.location = value.join("");
+      var address = this.detailed ? this.location + this.address : this.location;
+      this.$emit("input", address);
     },
+    // 加载数据
     loadData: function loadData(selectedOptions) {
       var _this2 = this;
 
@@ -3161,8 +3544,8 @@ function _toConsumableArray(arr) {
 });
 // CONCATENATED MODULE: ./ant-components/MonAddress/index.vue?vue&type=script&lang=js&
  /* harmony default export */ var ant_components_MonAddressvue_type_script_lang_js_ = (MonAddressvue_type_script_lang_js_); 
-// EXTERNAL MODULE: ./ant-components/MonAddress/index.vue?vue&type=style&index=0&id=6d360f9c&lang=less&scoped=true&
-var MonAddressvue_type_style_index_0_id_6d360f9c_lang_less_scoped_true_ = __webpack_require__("91a4");
+// EXTERNAL MODULE: ./ant-components/MonAddress/index.vue?vue&type=style&index=0&id=735d25d0&scoped=true&lang=css&
+var MonAddressvue_type_style_index_0_id_735d25d0_scoped_true_lang_css_ = __webpack_require__("05b7");
 
 // CONCATENATED MODULE: ./ant-components/MonAddress/index.vue
 
@@ -3175,11 +3558,11 @@ var MonAddressvue_type_style_index_0_id_6d360f9c_lang_less_scoped_true_ = __webp
 
 var MonAddress_component = normalizeComponent(
   ant_components_MonAddressvue_type_script_lang_js_,
-  MonAddressvue_type_template_id_6d360f9c_scoped_true_render,
-  MonAddressvue_type_template_id_6d360f9c_scoped_true_staticRenderFns,
+  MonAddressvue_type_template_id_735d25d0_scoped_true_render,
+  MonAddressvue_type_template_id_735d25d0_scoped_true_staticRenderFns,
   false,
   null,
-  "6d360f9c",
+  "735d25d0",
   null
   
 )
@@ -3194,6 +3577,581 @@ MonAddress.install = function (Vue) {
 };
 
 /* harmony default export */ var ant_components_MonAddress = (MonAddress);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3c4ff8c1-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./ant-components/MonSwitch/index.vue?vue&type=template&id=0a83d03e&
+var MonSwitchvue_type_template_id_0a83d03e_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"mon-switch"},[_c('a-switch',{attrs:{"size":_vm.size,"disabled":_vm.disabled,"checkedChildren":_vm.checkedChildren,"unCheckedChildren":_vm.unCheckedChildren},on:{"change":_vm.onChange},model:{value:(_vm.checked),callback:function ($$v) {_vm.checked=$$v},expression:"checked"}})],1)}
+var MonSwitchvue_type_template_id_0a83d03e_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./ant-components/MonSwitch/index.vue?vue&type=template&id=0a83d03e&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./ant-components/MonSwitch/index.vue?vue&type=script&lang=js&
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ var MonSwitchvue_type_script_lang_js_ = ({
+  name: "MonSwitch",
+  props: {
+    // 值 v-model
+    value: {
+      required: true,
+      default: "0",
+      validator: function validator(val) {
+        return ["0", "1", 0, 1].indexOf(val) != -1;
+      }
+    },
+    // 禁用全部操作
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    // 文本框大小
+    size: {
+      type: String,
+      default: "default"
+    },
+    // 选中时内容
+    checkedChildren: {
+      type: String,
+      default: "打开"
+    },
+    // 非选中时内容
+    unCheckedChildren: {
+      type: String,
+      default: "关闭"
+    }
+  },
+  data: function data() {
+    return {
+      checked: this.value == "1"
+    };
+  },
+  methods: {
+    onChange: function onChange(val) {
+      this.$emit("input", Number(val));
+    }
+  }
+});
+// CONCATENATED MODULE: ./ant-components/MonSwitch/index.vue?vue&type=script&lang=js&
+ /* harmony default export */ var ant_components_MonSwitchvue_type_script_lang_js_ = (MonSwitchvue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./ant-components/MonSwitch/index.vue
+
+
+
+
+
+/* normalize component */
+
+var MonSwitch_component = normalizeComponent(
+  ant_components_MonSwitchvue_type_script_lang_js_,
+  MonSwitchvue_type_template_id_0a83d03e_render,
+  MonSwitchvue_type_template_id_0a83d03e_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var MonSwitch = (MonSwitch_component.exports);
+// CONCATENATED MODULE: ./ant-components/MonSwitch/index.js
+
+
+
+MonSwitch.install = function (Vue) {
+  Vue.component(MonSwitch.name, MonSwitch);
+};
+
+/* harmony default export */ var ant_components_MonSwitch = (MonSwitch);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3c4ff8c1-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./ant-components/MonSlider/index.vue?vue&type=template&id=8fcd5150&
+var MonSlidervue_type_template_id_8fcd5150_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"mon-switch"},[_c('a-slider',{attrs:{"range":true,"defaultValue":_vm.val,"step":_vm.step,"min":_vm.min,"max":_vm.max,"default-value":_vm.value,"disabled":_vm.disabled},on:{"change":_vm.onChange}})],1)}
+var MonSlidervue_type_template_id_8fcd5150_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./ant-components/MonSlider/index.vue?vue&type=template&id=8fcd5150&
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./ant-components/MonSlider/index.vue?vue&type=script&lang=js&
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ var MonSlidervue_type_script_lang_js_ = ({
+  name: "MonSlider",
+  props: {
+    // 值 v-model
+    value: {
+      type: Array,
+      default: function _default() {
+        return [0, 0];
+      }
+    },
+    // 禁用全部操作
+    disabled: {
+      type: Boolean,
+      default: false
+    },
+    min: {
+      type: Number,
+      default: 0
+    },
+    max: {
+      type: Number,
+      default: 100
+    },
+    step: {
+      type: Number,
+      default: 1
+    },
+    // 选中时内容
+    checkedChildren: {
+      type: String,
+      default: "打开"
+    },
+    // 非选中时内容
+    unCheckedChildren: {
+      type: String,
+      default: "关闭"
+    }
+  },
+  data: function data() {
+    return {
+      val: this.value
+    };
+  },
+  methods: {
+    onChange: function onChange(value) {
+      this.$emit("input", value);
+    }
+  }
+});
+// CONCATENATED MODULE: ./ant-components/MonSlider/index.vue?vue&type=script&lang=js&
+ /* harmony default export */ var ant_components_MonSlidervue_type_script_lang_js_ = (MonSlidervue_type_script_lang_js_); 
+// CONCATENATED MODULE: ./ant-components/MonSlider/index.vue
+
+
+
+
+
+/* normalize component */
+
+var MonSlider_component = normalizeComponent(
+  ant_components_MonSlidervue_type_script_lang_js_,
+  MonSlidervue_type_template_id_8fcd5150_render,
+  MonSlidervue_type_template_id_8fcd5150_staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* harmony default export */ var MonSlider = (MonSlider_component.exports);
+// CONCATENATED MODULE: ./ant-components/MonSlider/index.js
+
+
+
+MonSlider.install = function (Vue) {
+  Vue.component(MonSlider.name, MonSlider);
+};
+
+/* harmony default export */ var ant_components_MonSlider = (MonSlider);
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js?{"cacheDirectory":"node_modules/.cache/vue-loader","cacheIdentifier":"3c4ff8c1-vue-loader-template"}!./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./components/MonLocation/index.vue?vue&type=template&id=79cdc6f7&scoped=true&
+var MonLocationvue_type_template_id_79cdc6f7_scoped_true_render = function () {var _vm=this;var _h=_vm.$createElement;var _c=_vm._self._c||_h;return _c('div',{staticClass:"mon-location"},[_c('div',{directives:[{name:"show",rawName:"v-show",value:(!_vm.showMap),expression:"!showMap"}],staticClass:"mon-location-get",on:{"click":_vm.loadMap}},[_c('svg',{staticClass:"icon",attrs:{"t":"1608805277648","viewBox":"0 0 1024 1024","version":"1.1","xmlns":"http://www.w3.org/2000/svg","p-id":"2604","width":"16","height":"16"}},[_c('path',{attrs:{"d":"M512 64a298.24 298.24 0 0 0-124.586667 26.24c-38.613333 17.493333-72.533333 41.557333-101.674666 72.192A341.376 341.376 0 0 0 192 400c0 34.986667 14.165333 83.84 42.496 146.56a1824.853333 1824.853333 0 0 0 97.493333 185.941333c36.693333 61.269333 72.533333 114.474667 107.52 159.701334 34.986667 45.226667 59.136 67.797333 72.490667 67.797333 13.354667 0 37.376-22.613333 72.106667-67.84 34.688-45.184 70.528-98.56 107.477333-160.085333a1810.645333 1810.645333 0 0 0 97.92-186.368c28.330667-62.72 42.496-111.274667 42.496-145.706667a341.376 341.376 0 0 0-93.738667-237.568 323.541333 323.541333 0 0 0-101.674666-72.192A298.24 298.24 0 0 0 512 64z m0 475.989333c-36.693333 0-68.053333-13.696-94.165333-41.130666-26.112-27.392-39.168-60.373333-39.168-98.858667 0-38.485333 13.056-71.466667 39.168-98.858667 26.112-27.434667 57.514667-41.130667 94.165333-41.130666 36.693333 0 68.053333 13.696 94.165333 41.130666 26.112 27.392 39.168 60.373333 39.168 98.858667 0 38.485333-13.056 71.466667-39.168 98.858667-26.112 27.434667-57.514667 41.130667-94.165333 41.130666z","p-id":"2605","fill":"#ffffff"}})]),_vm._v("\n        获取位置\n    ")]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showMap),expression:"showMap"}],staticClass:"mon-map"},[_c('div',{staticClass:"mon-map-header"},[_c('div',{staticClass:"mon-map-header-tips",attrs:{"id":"mon-map-header-tips"},domProps:{"innerHTML":_vm._s(_vm.tips)}}),_c('button',{staticClass:"mon-map-btn",attrs:{"type":"button","disabled":!_vm.initArress},on:{"click":_vm.clearMap}},[_vm._v("移除位置")])]),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showMapView),expression:"showMapView"}],staticClass:"mon-map-container",attrs:{"id":"mon-map-container"}}),_c('div',{directives:[{name:"show",rawName:"v-show",value:(_vm.showMapView),expression:"showMapView"}],staticClass:"mon-map-footer"},[_c('button',{staticClass:"mon-map-btn",attrs:{"type":"button","disabled":!_vm.initArress},on:{"click":_vm.getPosition}},[_vm._v(_vm._s(_vm.resetTips))]),_c('div',{staticClass:"mon-map-footer-search"},[_c('input',{staticClass:"mon-map-input",attrs:{"type":"search","id":"mon-map-search","placeholder":"请输入搜索的地点"},on:{"keyup":function($event){if(!$event.type.indexOf('key')&&_vm._k($event.keyCode,"enter",13,$event.key,"Enter")){ return null; }return _vm.searchPosition($event)}}}),_c('a',{staticClass:"mon-map-input-search",on:{"click":_vm.searchPosition}},[_c('svg',{staticClass:"icon",attrs:{"t":"1608875575132","viewBox":"0 0 1024 1024","version":"1.1","xmlns":"http://www.w3.org/2000/svg","p-id":"2483","width":"16","height":"16"}},[_c('path',{attrs:{"d":"M902.4 889.6l-156.8-156.8c156.8-147.2 166.4-393.6 22.4-553.6S371.2 12.8 211.2 160C51.2 307.2 44.8 553.6 192 713.6c131.2 140.8 342.4 166.4 502.4 60.8l160 163.2c12.8 12.8 32 12.8 44.8 0 12.8-12.8 16-35.2 3.2-48z m-755.2-448c0-182.4 147.2-329.6 329.6-329.6 182.4 0 329.6 147.2 329.6 329.6 0 182.4-147.2 329.6-329.6 329.6C294.4 774.4 147.2 624 147.2 441.6z","p-id":"2484","fill":"#1296db"}})])])])])])])}
+var MonLocationvue_type_template_id_79cdc6f7_scoped_true_staticRenderFns = []
+
+
+// CONCATENATED MODULE: ./components/MonLocation/index.vue?vue&type=template&id=79cdc6f7&scoped=true&
+
+// EXTERNAL MODULE: ./node_modules/core-js/modules/es6.regexp.search.js
+var es6_regexp_search = __webpack_require__("386d");
+
+// CONCATENATED MODULE: ./node_modules/cache-loader/dist/cjs.js??ref--12-0!./node_modules/thread-loader/dist/cjs.js!./node_modules/babel-loader/lib!./node_modules/cache-loader/dist/cjs.js??ref--0-0!./node_modules/vue-loader/lib??vue-loader-options!./components/MonLocation/index.vue?vue&type=script&lang=js&
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ var MonLocationvue_type_script_lang_js_ = ({
+  name: "MonLocation",
+  props: {
+    // 支持v-model绑定获取地址信息
+    value: {
+      default: ""
+    },
+    // v-model双向绑定返回的数据格式
+    type: {
+      default: "1",
+      validator: function validator(val) {
+        // 1表示返回完整的object信息，0表示只返回地址字符串信息
+        return ["0", "1", 0, 1].indexOf(val) != -1;
+      }
+    },
+    // api的key
+    apikey: {
+      type: String // default: "ed3f3956c5b3d30b46c1045517c2b23f"
+
+    },
+    // 是否直接显示地图
+    show: {
+      type: Boolean,
+      default: false
+    },
+    // 是否渲染地图
+    showMapView: {
+      type: Boolean,
+      default: true
+    }
+  },
+  data: function data() {
+    return {
+      init: false,
+      showMap: false,
+      map: null,
+      geoLocation: null,
+      autoSearch: null,
+      marker: null,
+      callback: "MonLocationApiLoad",
+      api: "https://webapi.amap.com/maps?v=1.4.15",
+      markIcon: "https://webapi.amap.com/theme/v2.0/markers/n/mark_r.png",
+      position: "",
+      formattedAddress: "",
+      lng: "",
+      lat: ""
+    };
+  },
+  computed: {
+    tips: function tips() {
+      if (this.formattedAddress && this.lng && this.lat) {
+        return "<div>".concat(this.formattedAddress, "</div><div><span style=\"margin-right: 14px\">\u7ECF\u5EA6\uFF1A").concat(this.lng, "</span><span>\u7EAC\u5EA6\uFF1A").concat(this.lat, "</span></div>");
+      } else {
+        return "<div>获取位置信息中...</div>";
+      }
+    },
+    resetTips: function resetTips() {
+      if (this.formattedAddress && this.lng && this.lat) {
+        return "重新获取位置";
+      } else {
+        return "获取位置中...";
+      }
+    },
+    initArress: function initArress() {
+      return this.formattedAddress && this.lng && this.lat;
+    },
+    address: function address() {
+      return {
+        address: this.formattedAddress,
+        lng: this.lng,
+        lat: this.lat
+      };
+    }
+  },
+  watch: {
+    // 监听同步v-model
+    formattedAddress: function formattedAddress(value) {
+      var data = this.type == "1" ? this.address : value;
+      this.$emit("input", data);
+    }
+  },
+  mounted: function mounted() {
+    var _this = this;
+
+    // 异步加载地图JS回调方法
+    window.MonLocationApiLoad = function () {
+      _this.map = new AMap.Map("mon-map-container", {
+        resizeEnable: true,
+        zoom: 15
+      }); // 加载插件
+
+      _this.map.plugin(["AMap.Geolocation", "AMap.ToolBar", "AMap.Autocomplete"], function () {
+        // 定位
+        _this.geoLocation = new AMap.Geolocation({
+          enableHighAccuracy: true,
+          //是否使用高精度定位，默认:true
+          timeout: 10000,
+          //超过10秒后停止定位，默认：无穷大
+          maximumAge: 0,
+          //定位结果缓存0毫秒，默认：0
+          convert: true,
+          //自动偏移坐标，偏移后的坐标为高德坐标，默认：true
+          showButton: false,
+          //显示定位按钮，默认：true
+          buttonPosition: "LB",
+          //定位按钮停靠位置，默认：'LB'，左下角
+          buttonOffset: new AMap.Pixel(10, 20),
+          //定位按钮与设置的停靠位置的偏移量，默认：Pixel(10, 20)
+          showMarker: false,
+          //定位成功后在定位到的位置显示点标记，默认：true
+          showCircle: true,
+          //定位成功后用圆圈表示定位精度范围，默认：true
+          panToLocation: true,
+          //定位成功后将定位到的位置作为地图中心点，默认：true
+          zoomToAccuracy: false //定位成功后调整地图视野范围使定位位置及精度范围视野内可见，默认：false
+
+        });
+
+        _this.map.addControl(_this.geoLocation); // 设置定位标志位
+
+
+        _this.marker = new AMap.Marker({
+          icon: _this.markIcon
+        }); // 获取当前定位
+
+        _this.geoLocation.getCurrentPosition(function (status, data) {
+          if (status == "complete") {
+            // 操作成功
+            _this.formattedAddress = data.formattedAddress;
+            _this.position = data.position;
+            _this.lng = data.position.lng;
+            _this.lat = data.position.lat; // 定位标志
+
+            _this.marker.setPosition(_this.position);
+
+            _this.marker.setTitle(_this.formattedAddress);
+
+            _this.map.add(_this.marker);
+          } else {
+            console.error(data);
+          }
+        }); // 简单缩放
+
+
+        _this.map.addControl(new AMap.ToolBar({
+          liteStyle: true
+        })); //输入提示
+
+
+        _this.autoSearch = new AMap.Autocomplete({// input: "mon-map-search"
+        });
+      });
+    }; // 初始化显示地图
+
+
+    if (this.show) {
+      this.loadMap();
+    }
+  },
+  methods: {
+    getAddress: function getAddress() {
+      return this.address;
+    },
+    // 加载地图
+    loadMap: function loadMap() {
+      this.showMap = true;
+
+      if (!this.init) {
+        var url = this.api + "&key=" + this.apikey + "&callback=" + this.callback;
+        var jsapi = document.createElement("script");
+        jsapi.charset = "utf-8";
+        jsapi.src = url;
+        document.head.appendChild(jsapi);
+        this.init = true;
+      } else {
+        // 已加载，直接调用
+        window.MonLocationApiLoad();
+      }
+    },
+    // 移除地图
+    clearMap: function clearMap() {
+      this.map && this.map.destroy();
+      this.map = null;
+      this.geoLocation = null;
+      this.clearAddress();
+      this.showMap = false;
+    },
+    // 重新定位
+    getPosition: function getPosition() {
+      var _this2 = this;
+
+      if (this.initArress && this.geoLocation && this.marker) {
+        this.clearAddress();
+        this.geoLocation.getCurrentPosition(function (status, data) {
+          if (status == "complete") {
+            // 操作成功
+            _this2.formattedAddress = data.formattedAddress;
+            _this2.lng = data.position.lng;
+            _this2.lat = data.position.lat;
+            _this2.position = data.position; // 设置定位标志
+
+            _this2.marker.setTitle(_this2.formattedAddress);
+
+            _this2.marker.setPosition(_this2.position); // 绘制地图坐标
+
+
+            _this2.map.remove(_this2.marker);
+
+            _this2.map.add(_this2.marker);
+
+            _this2.map.setCenter(_this2.position);
+          } else {
+            console.error(data);
+          }
+        });
+      }
+    },
+    // 清除地址信息
+    clearAddress: function clearAddress() {
+      this.formattedAddress = "";
+      this.lng = "";
+      this.lat = "";
+      this.position = "";
+      document.getElementById("mon-map-search").value = "";
+    },
+    // 搜索
+    searchPosition: function searchPosition() {
+      var _this3 = this;
+
+      var search = document.getElementById("mon-map-search").value;
+
+      if (search && this.initArress && this.autoSearch && this.marker) {
+        this.autoSearch.search(search, function (status, result) {
+          if (status == "complete" && result.tips.length) {
+            // 操作成功
+            var data = result.tips[0]; // this.formattedAddress = data.district + data.name;
+
+            _this3.formattedAddress = search;
+            _this3.lng = data.location.lng;
+            _this3.lat = data.location.lat;
+            _this3.position = data.location; // 设置定位标志
+
+            _this3.marker.setTitle(_this3.formattedAddress);
+
+            _this3.marker.setPosition(_this3.position); // 绘制地图坐标
+
+
+            _this3.map.remove(_this3.marker);
+
+            _this3.map.add(_this3.marker);
+
+            _this3.map.setCenter(_this3.position);
+          } else {
+            console.error(result);
+          }
+        });
+      }
+    }
+  }
+});
+// CONCATENATED MODULE: ./components/MonLocation/index.vue?vue&type=script&lang=js&
+ /* harmony default export */ var components_MonLocationvue_type_script_lang_js_ = (MonLocationvue_type_script_lang_js_); 
+// EXTERNAL MODULE: ./components/MonLocation/index.vue?vue&type=style&index=0&id=79cdc6f7&lang=less&scoped=true&
+var MonLocationvue_type_style_index_0_id_79cdc6f7_lang_less_scoped_true_ = __webpack_require__("c6b3");
+
+// CONCATENATED MODULE: ./components/MonLocation/index.vue
+
+
+
+
+
+
+/* normalize component */
+
+var MonLocation_component = normalizeComponent(
+  components_MonLocationvue_type_script_lang_js_,
+  MonLocationvue_type_template_id_79cdc6f7_scoped_true_render,
+  MonLocationvue_type_template_id_79cdc6f7_scoped_true_staticRenderFns,
+  false,
+  null,
+  "79cdc6f7",
+  null
+  
+)
+
+/* harmony default export */ var MonLocation = (MonLocation_component.exports);
+// CONCATENATED MODULE: ./components/MonLocation/index.js
+
+
+
+MonLocation.install = function (Vue) {
+  Vue.component(MonLocation.name, MonLocation);
+};
+
+/* harmony default export */ var components_MonLocation = (MonLocation);
 // CONCATENATED MODULE: ./ant-components/index.js
 
 
@@ -3206,7 +4164,10 @@ MonAddress.install = function (Vue) {
 
 
 
-var components = [ant_components_MonMonthPicker, ant_components_MonRangePicker, ant_components_MonDatePicker, ant_components_MonTimePicker, components_MonVideo, components_MonWord, components_MonImg, components_MonCheckboxImg, components_MonRadioImg, ant_components_MonAddress]; // vue安装方法
+
+
+
+var components = [ant_components_MonMonthPicker, ant_components_MonRangePicker, ant_components_MonDatePicker, ant_components_MonTimePicker, components_MonVideo, components_MonWord, components_MonImg, components_MonCheckboxImg, components_MonRadioImg, ant_components_MonAddress, ant_components_MonSwitch, ant_components_MonSlider, components_MonLocation]; // vue安装方法
 
 var _install = function _install(Vue) {
   // 判断是否安装
@@ -3244,7 +4205,13 @@ var ant_components_MonRadioImg = components_MonRadioImg; // 图片多选
 
 var ant_components_MonCheckboxImg = components_MonCheckboxImg; // 地址
 
-var ant_components_MonAddress_0 = ant_components_MonAddress; // 默认导出
+var ant_components_MonAddress_0 = ant_components_MonAddress; // 开关
+
+var ant_components_MonSwitch_0 = ant_components_MonSwitch; // 拖动条
+
+var ant_components_MonSlider_0 = ant_components_MonSlider; // 获取地理位置
+
+var ant_components_MonLocation = components_MonLocation; // 默认导出
 
 /* harmony default export */ var ant_components = ({
   'install': _install,
@@ -3257,7 +4224,10 @@ var ant_components_MonAddress_0 = ant_components_MonAddress; // 默认导出
   'MonImg': ant_components_MonImg,
   'MonRadioImg': ant_components_MonRadioImg,
   'MonCheckboxImg': ant_components_MonCheckboxImg,
-  'MonAddress': ant_components_MonAddress_0
+  'MonAddress': ant_components_MonAddress_0,
+  'MonSwitch': ant_components_MonSwitch_0,
+  'MonSlider': ant_components_MonSlider_0,
+  'MonLocation': ant_components_MonLocation
 });
 // CONCATENATED MODULE: ./node_modules/@vue/cli-service/lib/commands/build/entry-lib.js
 

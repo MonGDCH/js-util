@@ -14,10 +14,17 @@
 
         <!-- <mon-checkbox-img :list="imgs" v-model="img.path" /> -->
         <!-- <mon-radio-img :list="imgs" v-model="img.path2" /> -->
+        <!-- 开关 -->
+        <!-- <mon-switch v-model="switchs" /> -->
 
-        <mon-address v-model="address" />
+        <!-- <mon-slider v-model="slider"/> -->
 
-        <div>
+        <mon-location v-model="location" :type="0" apikey="ed3f3956c5b3d30b46c1045517c2b23f" ref="location" />
+
+        <!-- 地址 -->
+        <!-- <mon-address v-model="address" /> -->
+
+        <div style="margin-top: 20px">
             <button @click="getData()">Get Data</button>
             <button @click="img.path = ['1','8']">Set Data</button>
         </div>
@@ -54,7 +61,10 @@ export default {
                 path: [],
                 path2: ""
             },
-            address: []
+            address: "",
+            switchs: 1,
+            slider: [0, 20],
+            location: null
         };
     },
     mounted() {
@@ -67,7 +77,8 @@ export default {
             location.href = "http://baidu.com";
         },
         getData() {
-            console.log(this.address)
+            // console.log(this.location);
+            console.log(this.$refs['location'].getAddress())
             // this.$Toast.send("达健身房这是上岛咖啡");
             // Toast.send('达健身房这是上岛咖啡', {type: 'bottom'})
             // console.log(this.img);
@@ -79,6 +90,7 @@ export default {
 
 <style lang="less">
 #app {
+    // padding: 48px;
     height: 3000px;
     text-align: center;
     color: #2c3e50;

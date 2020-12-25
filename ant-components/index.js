@@ -8,6 +8,9 @@ import Img from '../components/MonImg'
 import CheckboxImg from '../components/MonCheckboxImg'
 import RadioImg from '../components/MonRadioImg'
 import Address from './MonAddress'
+import Switch from './MonSwitch'
+import Slider from './MonSlider'
+import Location from '../components/MonLocation'
 
 
 const components = [
@@ -20,7 +23,10 @@ const components = [
     Img,
     CheckboxImg,
     RadioImg,
-    Address
+    Address,
+    Switch,
+    Slider,
+    Location
 ];
 
 // vue安装方法
@@ -60,6 +66,12 @@ export const MonRadioImg = RadioImg
 export const MonCheckboxImg = CheckboxImg
 // 地址
 export const MonAddress = Address
+// 开关
+export const MonSwitch = Switch
+// 拖动条
+export const MonSlider = Slider
+// 获取地理位置
+export const MonLocation = Location
 
 // 默认导出
 export default {
@@ -74,4 +86,7 @@ export default {
     'MonRadioImg': MonRadioImg,
     'MonCheckboxImg': MonCheckboxImg,
     'MonAddress': MonAddress,
+    'MonSwitch': MonSwitch,
+    'MonSlider': MonSlider,
+    'MonLocation': MonLocation
 }
