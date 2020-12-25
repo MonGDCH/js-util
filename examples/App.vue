@@ -90,7 +90,7 @@ export default {
 
 <style lang="less">
 #app {
-    // padding: 48px;
+    padding: 48px;
     height: 3000px;
     text-align: center;
     color: #2c3e50;

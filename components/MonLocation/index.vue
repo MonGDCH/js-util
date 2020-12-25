@@ -86,7 +86,7 @@ export default {
         },
         // api的key
         apikey: {
-            type: String,
+            type: String
             // default: "ed3f3956c5b3d30b46c1045517c2b23f"
         },
         // 是否直接显示地图
@@ -313,9 +313,9 @@ export default {
 .mon-location {
     padding: 0;
     margin: 0;
-    // min-width: 420px;
 
     .mon-location-get {
+        text-align: center;
         width: 200px;
         background: #007bff;
         color: #ffffff;
@@ -365,6 +365,7 @@ export default {
         }
 
         .mon-map-btn {
+            text-align: center;
             padding: 6px 10px;
             background: #ebebeb;
             border-radius: 4px;
@@ -391,11 +392,12 @@ export default {
         }
 
         .mon-map-input {
+            text-align: left;
             outline: 0;
             height: 33px;
             padding: 4px 8px;
             border: 1px solid #dddddd;
-            min-width: 220px;
+            // min-width: 220px;
             width: 100%;
             font-size: 14px;
 
