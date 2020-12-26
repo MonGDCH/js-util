@@ -20,13 +20,13 @@
     </div>
 </template>
 <script>
-window.addressApi = "http://demo.test/getLocation";
+// window.addressApi = "http://demo.test/getLocation";
 export default {
     name: "MonAddress",
     props: {
         // 值 v-model
         value: {
-            required: true
+            default: ""
         },
         // 显示详细地址输入框
         detailed: {
@@ -50,7 +50,7 @@ export default {
         },
         detailedPlaceholder: {
             type: String,
-            default: "详细地址"
+            default: "请输入详细地址"
         },
         // 文本框大小
         size: {

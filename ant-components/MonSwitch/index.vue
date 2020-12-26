@@ -16,7 +16,6 @@ export default {
     props: {
         // 值 v-model
         value: {
-            required: true,
             default: "0",
             validator: function(val) {
                 return ["0", "1", 0, 1].indexOf(val) != -1;
@@ -47,6 +46,11 @@ export default {
         return {
             checked: this.value == "1"
         };
+    },
+    watch: {
+        value(value) {
+            this.checked = value == "1";
+        }
     },
     methods: {
         onChange(val) {

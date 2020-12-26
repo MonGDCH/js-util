@@ -15,11 +15,11 @@
         <!-- <mon-checkbox-img :list="imgs" v-model="img.path" /> -->
         <!-- <mon-radio-img :list="imgs" v-model="img.path2" /> -->
         <!-- 开关 -->
-        <!-- <mon-switch v-model="switchs" /> -->
+        <mon-switch v-model="switchs" />
 
         <!-- <mon-slider v-model="slider"/> -->
 
-        <mon-location v-model="location" :type="0" apikey="ed3f3956c5b3d30b46c1045517c2b23f" ref="location" />
+        <!-- <mon-location v-model="location" :type="0" apikey="ed3f3956c5b3d30b46c1045517c2b23f" ref="location" /> -->
 
         <!-- 地址 -->
         <!-- <mon-address v-model="address" /> -->
@@ -77,8 +77,10 @@ export default {
             location.href = "http://baidu.com";
         },
         getData() {
+            console.log(this.switchs)
+            this.switchs = this.switchs == '1' ? 0 : 1;
             // console.log(this.location);
-            console.log(this.$refs['location'].getAddress())
+            // console.log(this.$refs['location'].getAddress())
             // this.$Toast.send("达健身房这是上岛咖啡");
             // Toast.send('达健身房这是上岛咖啡', {type: 'bottom'})
             // console.log(this.img);

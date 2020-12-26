@@ -40,21 +40,16 @@ export default {
             type: Number,
             default: 1
         },
-        // 选中时内容
-        checkedChildren: {
-            type: String,
-            default: "打开"
-        },
-        // 非选中时内容
-        unCheckedChildren: {
-            type: String,
-            default: "关闭"
-        }
     },
     data() {
         return {
             val: this.value
         };
+    },
+    watch: {
+        value(value) {
+            this.val = value;
+        }
     },
     methods: {
         onChange(value) {
