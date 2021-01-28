@@ -41,12 +41,15 @@ export default {
                 link: this.link,
                 title: this.linkTitle
             });
-            this.showErrorLink = false;
-            this.link = "http://";
-            this.linkTitle = "";
+            // this.showErrorLink = false;
+            // this.link = "http://";
+            // this.linkTitle = "";
         },
         cancel() {
+            this.reset()
             this.$emit("cancel");
+        },
+        reset() {
             this.showErrorLink = false;
             this.link = "http://";
             this.linkTitle = "";
@@ -132,7 +135,7 @@ export default {
         }
     }
 
-    .error{
+    .error {
         color: #ff0000;
         font-size: 12px;
     }

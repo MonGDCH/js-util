@@ -3,6 +3,7 @@
         <div class="dialog-cover" :style="mask">
             <div class="dialog-cont-wrap animated zoomIn faster">
                 <component
+                    ref="view"
                     :is="type"
                     :title="title"
                     :msg="msg"

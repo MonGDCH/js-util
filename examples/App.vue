@@ -1,8 +1,8 @@
 <template>
     <div id="app">
         <!-- <mon-carousel :imgs="[{img: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3224110779,1779790953&fm=26&gp=0.jpg'},{img: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3224110779,1779790953&fm=26&gp=0.jpg'}]"/> -->
-        <!-- <mon-date-picker/> -->
-        <!-- <mon-dialog v-model="show" :msg="`hello world!`"/> -->
+        <!-- <mon-date-picker v-model="v" /> -->
+        <mon-dialog v-model="show" ref="dialog" type="links" msg="hello world!" @ok="test" @cancel="show = false" />
         <!-- <mon-music :music="`https://www.runoob.com/try/demo_source/horse.ogg`"/> -->
         <!-- <mon-page-list/> -->
         <!-- <mon-paging v-model="p" :count="12" :pageSize="4" /> -->
@@ -15,7 +15,7 @@
         <!-- <mon-checkbox-img :list="imgs" v-model="img.path" /> -->
         <!-- <mon-radio-img :list="imgs" v-model="img.path2" /> -->
         <!-- 开关 -->
-        <mon-switch v-model="switchs" />
+        <!-- <mon-switch v-model="switchs" /> -->
 
         <!-- <mon-slider v-model="slider"/> -->
 
@@ -26,6 +26,7 @@
 
         <div style="margin-top: 20px">
             <button @click="getData()">Get Data</button>
+
             <button @click="img.path = ['1','8']">Set Data</button>
         </div>
     </div>
@@ -64,7 +65,8 @@ export default {
             address: "",
             switchs: 1,
             slider: [0, 20],
-            location: null
+            location: null,
+            v: ""
         };
     },
     mounted() {
@@ -77,14 +79,19 @@ export default {
             location.href = "http://baidu.com";
         },
         getData() {
-            console.log(this.switchs)
-            this.switchs = this.switchs == '1' ? 0 : 1;
+            this.show = true;
+            // console.log(this.v.getTime());
+            this.switchs = this.switchs == "1" ? 0 : 1;
             // console.log(this.location);
             // console.log(this.$refs['location'].getAddress())
             // this.$Toast.send("达健身房这是上岛咖啡");
             // Toast.send('达健身房这是上岛咖啡', {type: 'bottom'})
             // console.log(this.img);
             // this.show = !this.show;
+        },
+        test(data) {
+            console.log(this.$refs['dialog'].$refs['view'].reset())
+            console.log(data);
         }
     }
 };
@@ -92,10 +99,15 @@ export default {
 
 <style lang="less">
 #app {
-    padding: 48px;
-    height: 3000px;
     text-align: center;
     color: #2c3e50;
     font-size: 14px;
+    width: 600px;
+    height: 600px;
+    margin: 48px auto;
+
+    button {
+        margin: 0 12px;
+    }
 }
 </style>

@@ -54,7 +54,11 @@ export default {
     },
     computed: {
         showTitle() {
-            return this.title == "提示"? (this.showOldPwd? "修改密码": "重置密码") : this.title;
+            return this.title == "提示"
+                ? this.showOldPwd
+                    ? "修改密码"
+                    : "重置密码"
+                : this.title;
         }
     },
     watch: {
@@ -72,6 +76,7 @@ export default {
         }
     },
     methods: {
+        // 确认
         isOk() {
             if (this.showOldPwd && this.oldPwd == "") {
                 this.oldPwdError = "旧密码不能为空";
@@ -97,7 +102,13 @@ export default {
                 newPwd: this.newPwd
             });
         },
+        // 取消
         cancel() {
+            this.reset();
+            this.$emit("cancel");
+        },
+        // 重置
+        reset() {
             this.oldPwd = "";
             this.oldPwdError = "";
             this.showOldPwdError = false;
@@ -107,7 +118,6 @@ export default {
             this.confirmpwd = "";
             this.confirmpwdError = "";
             this.showConfirmpwdError = false;
-            this.$emit("cancel");
         }
     }
 };
