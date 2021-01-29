@@ -33,6 +33,11 @@
 
 - 优化dialog组件，增加获取子组件refs的能力
 
+> v1.0.8
+
+- 优化LoadingModal组件，增加主题选择，通过start方法传参选择主题
+- 优化Dialog组件，增加custom、prompt类型的弹窗
+
 
 ## 回到顶部组件
 

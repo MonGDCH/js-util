@@ -1,5 +1,5 @@
 <template>
-    <div class="dialog-box">
+    <div class="dialog-password">
         <div class="dialog-title">{{showTitle}}</div>
         <div class="dialog-container">
             <div class="dialog-form">
@@ -124,7 +124,7 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.dialog-box {
+.dialog-password {
     width: 320px;
     // height: 240px;
     margin: 0 auto;
@@ -164,7 +164,7 @@ export default {
                 margin-bottom: 8px;
 
                 label {
-                    width: 78px;
+                    width: 81px;
                     text-align: right;
                     display: inline-block;
                     padding: 0 4px;
@@ -192,11 +192,15 @@ export default {
                 border: 1px solid #eee;
                 cursor: pointer;
                 font-size: 12px;
-                margin-right: 4px;
+                margin-right: 12px;
 
                 &:hover {
                     border-color: #ddd;
                     background: #eee;
+                }
+
+                &:last-child {
+                    margin-right: 0;
                 }
             }
         }

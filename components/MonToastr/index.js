@@ -107,6 +107,6 @@ export default {
 
     // 挂载到Vue
     install(Vue, options) {
-        Vue.prototype.$toastr = this
+        Vue.prototype.$Toastr = this
     }
 };

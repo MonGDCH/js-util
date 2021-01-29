@@ -8,10 +8,13 @@
 #### start, 开始
 
 ```
-LoadingModal.start()
+LoadingModal.start(theme)
 
-this.$LoadingModal.start()
+this.$LoadingModal.start(theme)
 ```
+
+> `theme`为主题参数，支持[1, 2]两种类型的主题，默认为1
+
 
 #### end, 结束
 

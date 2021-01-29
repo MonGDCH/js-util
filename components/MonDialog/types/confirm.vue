@@ -1,5 +1,5 @@
 <template>
-    <div class="dialog-cont">
+    <div class="dialog-confirm">
         <div class="dialog-cont-title" :style="textAlign">{{title}}</div>
         <div class="dialog-cont-body">
             <p class="dialog-cont-msg" v-if="msg" v-html="msg"></p>
@@ -39,7 +39,7 @@ export default {
 };
 </script>
 <style lang="less" scoped>
-.dialog-cont {
+.dialog-confirm {
     position: relative;
     text-align: left;
     max-width: 320px;
@@ -81,11 +81,15 @@ export default {
             border: 1px solid #eee;
             cursor: pointer;
             font-size: 12px;
-            margin-right: 4px;
+            margin-right: 12px;
 
             &:hover {
                 border-color: #ddd;
                 background: #eee;
+            }
+
+            &:last-child {
+                margin-right: 0;
             }
         }
     }

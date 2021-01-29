@@ -60,7 +60,7 @@ module.exports = {
         config.entry.app = path.join(__dirname, 'examples/main.js')
         // 不打包webpack
         config.externals = {
-            vue: 'vue',
+            vue: !isProduction ? 'Vue' : 'vue',
             'ant-design-vue': 'ant-design-vue',
             'antd': 'ant-design-vue',
             moment: 'moment',

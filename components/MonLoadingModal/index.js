@@ -20,7 +20,7 @@ LoadingModalContainer.prototype.install = function (Vue) {
  * @param  {[type]} options [description]
  * @return {[type]}         [description]
  */
-LoadingModalContainer.prototype.config = function(options){
+LoadingModalContainer.prototype.config = function (options) {
 	Object.keys(options).forEach((key) => {
 		this[key] = options[key]
 	})
@@ -31,7 +31,7 @@ LoadingModalContainer.prototype.config = function(options){
  *
  * @return {[type]} [description]
  */
-LoadingModalContainer.prototype.init = function(){
+LoadingModalContainer.prototype.init = function () {
 	this.vm = this.$mount();
 	document.body.appendChild(this.vm.$el);
 	return this
@@ -42,8 +42,13 @@ LoadingModalContainer.prototype.init = function(){
  *
  * @return {[type]} [description]
  */
-LoadingModalContainer.prototype.start = function(){
+LoadingModalContainer.prototype.start = function (theme) {
 	this.init();
+	if ([1, 2].includes(theme)) {
+		this.theme = theme
+	} else {
+		this.theme = 1
+	}
 	this.isShow = true
 };
 
@@ -52,8 +57,8 @@ LoadingModalContainer.prototype.start = function(){
  *
  * @return {[type]} [description]
  */
-LoadingModalContainer.prototype.finish = function(){
-	this.isShow || this.start()
+LoadingModalContainer.prototype.finish = function (theme) {
+	this.isShow || this.start(theme)
 	this.isShow = false
 	document.body.removeChild(this.vm.$el);
 };

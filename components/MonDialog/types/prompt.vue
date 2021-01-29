@@ -1,16 +1,11 @@
 <template>
-    <div class="dialog-links">
-        <div class="dialog-title">添加链接</div>
+    <div class="dialog-prompt">
+        <div class="dialog-title">{{title}}</div>
         <div class="dialog-container">
             <div class="dialog-form">
                 <div class="dialog-form-item">
-                    <label for="dialog-link-data">链接地址</label>
-                    <input type="text" id="dialog-link-data" v-model="link" />
-                    <span class="error" v-show="showErrorLink">{{errorLink}}</span>
-                </div>
-                <div class="dialog-form-item">
-                    <label for="dialog-title-data">链接标题</label>
-                    <input type="text" id="dialog-title-data" v-model="linkTitle" />
+                    <input :type="inputType" :placeholder="msg" v-model="result" />
+                    <span class="error" v-show="showError">{{error}}</span>
                 </div>
             </div>
             <div class="dialog-footer">
@@ -22,46 +17,55 @@
 </template>
 <script>
 export default {
-    name: "dialog-links",
+    name: "dialog-prompt",
+    props: {
+        title: {
+            type: String,
+            default: ""
+        },
+        msg: {
+            type: String,
+            default: ""
+        },
+        isPassword: {
+            type: Boolean,
+            default: false
+        }
+    },
+    computed: {
+        inputType() {
+            return this.isPassword ? 'password' : 'text'
+        }
+    },
     data() {
         return {
-            link: "http://",
-            linkTitle: "",
-            showErrorLink: false,
-            errorLink: "链接地址不能为空"
+            result: "",
+            showError: false,
+            error: "请输入信息"
         };
     },
     methods: {
         isOk() {
-            if (this.link == "") {
-                this.showErrorLink = true;
+            if (this.result == "") {
+                this.showError = true;
                 return false;
             }
-            this.$emit("ok", {
-                link: this.link,
-                title: this.linkTitle
-            });
-            // this.showErrorLink = false;
-            // this.link = "http://";
-            // this.linkTitle = "";
+            this.$emit("ok", this.result);
         },
         cancel() {
             this.reset();
             this.$emit("cancel");
         },
         reset() {
-            this.showErrorLink = false;
-            this.link = "http://";
-            this.linkTitle = "";
+            this.showError = false;
+            this.result = "";
         }
     }
 };
 </script>
-
 <style lang="less" scoped>
-.dialog-links {
+.dialog-prompt {
     width: 320px;
-    // height: 200px;
     margin: 0 auto;
     color: #666;
     -webkit-border-radius: 3px;
@@ -76,13 +80,11 @@ export default {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     background: #fff;
     font-size: 14px;
-    /* padding: 12px; */
 
     .dialog-title {
         text-align: left;
         font-size: 15px;
         color: #000000;
-        // font-weight: 600;
         padding: 10px 16px;
         background: #f6f6f6;
         border-bottom: 1px solid #eee;
@@ -96,17 +98,11 @@ export default {
         .dialog-form {
             .dialog-form-item {
                 text-align: left;
-                margin-bottom: 8px;
-
-                label {
-                    width: 68px;
-                    text-align: left;
-                    display: inline-block;
-                }
+                // margin-bottom: 8px;
 
                 input {
                     display: inline-block;
-                    width: 220px;
+                    width: 100%;
                     color: #999;
                     padding: 4px;
                     border: 1px solid #ddd;

@@ -2,7 +2,23 @@
     <div id="app">
         <!-- <mon-carousel :imgs="[{img: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3224110779,1779790953&fm=26&gp=0.jpg'},{img: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3224110779,1779790953&fm=26&gp=0.jpg'}]"/> -->
         <!-- <mon-date-picker v-model="v" /> -->
-        <mon-dialog v-model="show" ref="dialog" type="links" msg="hello world!" @ok="test" @cancel="show = false" />
+        <mon-dialog
+            v-model="show"
+            ref="dialog"
+            title="你好"
+            type="prompt"
+            msg="hello world!"
+            @ok="test"
+            @cancel="show = false"
+            :isPassword="true"
+        >
+            <div style="width: 360px; height:300px; text-align: center;">
+                <h4>Custom test</h4>
+                <div>
+                    <button @click="show = false">确定</button>
+                </div>
+            </div>
+        </mon-dialog>
         <!-- <mon-music :music="`https://www.runoob.com/try/demo_source/horse.ogg`"/> -->
         <!-- <mon-page-list/> -->
         <!-- <mon-paging v-model="p" :count="12" :pageSize="4" /> -->
@@ -70,6 +86,7 @@ export default {
         };
     },
     mounted() {
+        this.$LoadingModal.start(2)
         // console.log(this.$LoadingBar.finish())
         // console.log(this.$LoadingModal.start())
         // this.$toastr.send("12345");
@@ -90,7 +107,7 @@ export default {
             // this.show = !this.show;
         },
         test(data) {
-            console.log(this.$refs['dialog'].$refs['view'].reset())
+            // console.log(this.$refs["dialog"].$refs["view"].reset());
             console.log(data);
         }
     }

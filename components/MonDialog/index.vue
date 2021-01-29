@@ -10,7 +10,10 @@
                     @ok="ok"
                     @cancel="cancel"
                     :showOldPwd="showOldPwd"
-                ></component>
+                    :isPassword="isPassword"
+                >
+                    <slot></slot>
+                </component>
             </div>
         </div>
     </div>
@@ -20,13 +23,17 @@ import Alert from "./types/alert";
 import Links from "./types/links";
 import Confirm from "./types/confirm";
 import Password from "./types/password";
+import Custom from "./types/custom";
+import Prompt from "./types/prompt";
 export default {
     name: "MonDialog",
     components: {
         Alert,
         Links,
         Confirm,
-        Password
+        Password,
+        Custom,
+        Prompt
     },
     props: {
         value: {
@@ -50,9 +57,15 @@ export default {
             type: Boolean,
             default: true
         },
+        // 是否显示幕布
         showMask: {
             type: Boolean,
             default: true
+        },
+        // 使用密码输入框，当弹窗类型为prompt时有效
+        isPassword: {
+            type: Boolean,
+            default: false
         }
     },
     data() {
@@ -62,7 +75,9 @@ export default {
     },
     computed: {
         mask() {
-            return this.showMask ? { backgroundColor: "rgba(0, 0, 0, 0.6)" } : {};
+            return this.showMask
+                ? { backgroundColor: "rgba(0, 0, 0, .5)" }
+                : {};
         }
     },
     watch: {
@@ -105,10 +120,6 @@ export default {
         right: 0px;
         width: 100%;
         height: 100%;
-        // opacity: 0.7;
-        // -moz-opacity: 0.7;
-        // filter: alpha(opacity=40);
-        // background-color: rgba(0, 0, 0, 0.6);
         display: block;
         z-index: 1998;
 
