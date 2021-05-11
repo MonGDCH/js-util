@@ -3,6 +3,7 @@
         <div class="dialog-title">{{title}}</div>
         <div class="dialog-container">
             <div class="dialog-form">
+                <slot></slot>
                 <div class="dialog-form-item">
                     <input :type="inputType" :placeholder="msg" v-model="result" />
                     <span class="error" v-show="showError">{{error}}</span>

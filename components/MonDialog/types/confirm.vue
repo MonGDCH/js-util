@@ -2,6 +2,7 @@
     <div class="dialog-confirm">
         <div class="dialog-cont-title" :style="textAlign">{{title}}</div>
         <div class="dialog-cont-body">
+            <slot></slot>
             <p class="dialog-cont-msg" v-if="msg" v-html="msg"></p>
         </div>
         <div class="dialog-cont-footer">

@@ -6,13 +6,13 @@
             v-model="show"
             ref="dialog"
             title="你好"
-            type="prompt"
+            type="confirm"
             msg="hello world!"
             @ok="test"
             @cancel="show = false"
             :isPassword="true"
         >
-            <div style="width: 360px; height:300px; text-align: center;">
+            <div>
                 <h4>Custom test</h4>
                 <div>
                     <button @click="show = false">确定</button>
@@ -43,12 +43,13 @@
         <div style="margin-top: 20px">
             <button @click="getData()">Get Data</button>
 
-            <button @click="img.path = ['1','8']">Set Data</button>
+            <button @click="img.path = ['1', '8']">Set Data</button>
         </div>
     </div>
 </template>
 <script>
 import { MonToast as Toast } from "components";
+import { MonToastr as Toastr } from "components";
 export default {
     data() {
         return {
@@ -59,37 +60,46 @@ export default {
                     img:
                         "https://ss3.bdstatic.com/70cFv8Sh_Q1YnxGkpoWK1HF6hhy/it/u=2350660822,4130966655&fm=26&gp=0.jpg",
                     title: "爱德华法兰克福很拉风流口水东方红",
-                    value: "1"
+                    value: "1",
                 },
                 {
                     img:
                         "https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3638032789,1833523001&fm=26&gp=0.jpg",
                     title: "2.png",
-                    value: "2"
+                    value: "2",
                 },
                 {
                     img:
                         "https://ss1.bdstatic.com/70cFvXSh_Q1YnxGkpoWK1HF6hhy/it/u=2477792578,2670915805&fm=11&gp=0.jpg",
                     title: "6.png",
-                    value: "8"
-                }
+                    value: "8",
+                },
             ],
             img: {
                 path: [],
-                path2: ""
+                path2: "",
             },
             address: "",
             switchs: 1,
             slider: [0, 20],
             location: null,
-            v: ""
+            v: "",
         };
     },
     mounted() {
-        this.$LoadingModal.start(2)
+        // this.$LoadingModal.start(2)
         // console.log(this.$LoadingBar.finish())
         // console.log(this.$LoadingModal.start())
-        // this.$toastr.send("12345");
+        this.$Toast.send("达健身房这是上岛咖啡", {
+            onClose: () => {
+                this.show = true;
+            },
+        });
+        // Toastr.send('asdf', {
+        //     onClose: () => {
+        //         alert(11)
+        //     }
+        // })
     },
     methods: {
         open() {
@@ -98,7 +108,7 @@ export default {
         getData() {
             this.show = true;
             // console.log(this.v.getTime());
-            this.switchs = this.switchs == "1" ? 0 : 1;
+            // this.switchs = this.switchs == "1" ? 0 : 1;
             // console.log(this.location);
             // console.log(this.$refs['location'].getAddress())
             // this.$Toast.send("达健身房这是上岛咖啡");
@@ -109,8 +119,8 @@ export default {
         test(data) {
             // console.log(this.$refs["dialog"].$refs["view"].reset());
             console.log(data);
-        }
-    }
+        },
+    },
 };
 </script>
 

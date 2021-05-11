@@ -3,6 +3,7 @@
         <div class="dialog-title">{{showTitle}}</div>
         <div class="dialog-container">
             <div class="dialog-form">
+                <slot></slot>
                 <div class="dialog-form-item" v-if="showOldPwd">
                     <label for="dialog-oldpwd-data">旧密码</label>
                     <input type="password" id="dialog-oldpwd-data" v-model="oldPwd" />

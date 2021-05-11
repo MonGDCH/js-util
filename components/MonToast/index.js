@@ -9,7 +9,7 @@ export default {
 		// 默认显示位置
 		type: "center",
 		// 默认持续时间
-		duration: "3000"
+		duration: "2000"
 	},
 	// Vue安装
 	install(Vue, options) {
@@ -27,6 +27,7 @@ export default {
 		// 如果有传type，位置则设为该type
 		let chooseType = opt.type ? opt.type : this.options.type;
 		let duration = opt.duration ? opt.duration : this.options.duration;
+		let onClose = opt.onClose ? opt.onClose : () => {}
 		// 如果页面有toast则不继续执行
 		if (document.querySelector('.mon-toast')) {
 			return;
@@ -42,6 +43,7 @@ export default {
 		// 4、到期移除元素
 		setTimeout(() => {
 			document.body.removeChild(tpl);
+			onClose()
 		}, duration);
 		//阻止遮罩滑动
 		document.querySelector("div.mon-toast").addEventListener("touchmove", function (e) {

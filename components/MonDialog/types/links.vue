@@ -3,6 +3,7 @@
         <div class="dialog-title">添加链接</div>
         <div class="dialog-container">
             <div class="dialog-form">
+                <slot></slot>
                 <div class="dialog-form-item">
                     <label for="dialog-link-data">链接地址</label>
                     <input type="text" id="dialog-link-data" v-model="link" />
