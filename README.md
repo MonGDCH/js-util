@@ -38,6 +38,9 @@
 - 优化LoadingModal组件，增加主题选择，通过start方法传参选择主题
 - 优化Dialog组件，增加custom、prompt类型的弹窗
 
+> v1.0.9
+
+- 优化dialog、toast组件
 
 ## 回到顶部组件
 
