@@ -1,7 +1,7 @@
-import Paging from './index.vue'
+import App from './index.vue'
 
-Paging.install = function (Vue) {
-    Vue.component(Paging.name, Paging)
+App.install = function (Vue) {
+    Vue.component(App.name, App)
 }
 
-export default Paging
+export default App

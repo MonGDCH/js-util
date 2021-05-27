@@ -16,6 +16,7 @@ import Img from './MonImg'
 import RadioIImg from './MonRadioImg'
 import CheckboxImg from './MonCheckboxImg'
 import Location from './MonLocation'
+import Select from './MonSelect'
 
 const components = [
     BackTop,
@@ -31,7 +32,8 @@ const components = [
     Img,
     RadioIImg,
     CheckboxImg,
-    Location
+    Location,
+    Select
 ];
 
 const uses = [
@@ -98,6 +100,8 @@ export const MonRadioIImg = RadioIImg
 export const MonCheckboxImg = CheckboxImg
 // 获取地理位置
 export const MonLocation = Location
+// select选择
+export const MonSelect = Select
 
 // 默认导出
 export default {
@@ -121,4 +125,5 @@ export default {
     'MonCheckboxImg': MonCheckboxImg,
     'MonToast': MonToast,
     'MonLocation': MonLocation,
+    'MonSelect': MonSelect
 };

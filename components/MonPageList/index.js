@@ -1,7 +1,7 @@
-import page from './index.vue'
+import PageList from './index.vue'
 
-page.install = function (Vue) {
-    Vue.component(page.name, page)
+PageList.install = function (Vue) {
+    Vue.component(PageList.name, PageList)
 }
 
-export default page
+export default PageList

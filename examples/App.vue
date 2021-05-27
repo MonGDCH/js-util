@@ -2,7 +2,7 @@
     <div id="app">
         <!-- <mon-carousel :imgs="[{img: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3224110779,1779790953&fm=26&gp=0.jpg'},{img: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3224110779,1779790953&fm=26&gp=0.jpg'}]"/> -->
         <!-- <mon-date-picker v-model="v" /> -->
-        <mon-dialog
+        <!-- <mon-dialog
             v-model="show"
             ref="dialog"
             title="你好"
@@ -18,7 +18,7 @@
                     <button @click="show = false">确定</button>
                 </div>
             </div>
-        </mon-dialog>
+        </mon-dialog> -->
         <!-- <mon-music :music="`https://www.runoob.com/try/demo_source/horse.ogg`"/> -->
         <!-- <mon-page-list/> -->
         <!-- <mon-paging v-model="p" :count="12" :pageSize="4" /> -->
@@ -40,16 +40,20 @@
         <!-- 地址 -->
         <!-- <mon-address v-model="address" /> -->
 
+        <!-- select -->
+        <mon-select :options="options" v-model="vs"></mon-select>
+
         <div style="margin-top: 20px">
             <button @click="getData()">Get Data</button>
 
-            <button @click="img.path = ['1', '8']">Set Data</button>
+            <button @click="setData()">Set Data</button>
         </div>
     </div>
 </template>
 <script>
 import { MonToast as Toast } from "components";
 import { MonToastr as Toastr } from "components";
+// import { MonSelect } from "components";
 export default {
     data() {
         return {
@@ -84,6 +88,15 @@ export default {
             slider: [0, 20],
             location: null,
             v: "",
+            options: [
+                { v: "1", title: "t1" },
+                { v: "2", title: "t2" },
+                { v: "3", title: "t3" },
+                { v: "4", title: "t4" },
+                { v: "5", title: "t5" },
+            ],
+            vs: [{ v: "4", title: "t4" },
+                { v: "5", title: "t5" },],
         };
     },
     mounted() {
@@ -106,7 +119,7 @@ export default {
             location.href = "http://baidu.com";
         },
         getData() {
-            this.show = true;
+            // this.show = true;
             // console.log(this.v.getTime());
             // this.switchs = this.switchs == "1" ? 0 : 1;
             // console.log(this.location);
@@ -115,6 +128,13 @@ export default {
             // Toast.send('达健身房这是上岛咖啡', {type: 'bottom'})
             // console.log(this.img);
             // this.show = !this.show;
+
+            console.log(this.vs)
+        },
+        setData(){
+            this.vs = [
+                { v: "1", title: "t1" }
+            ]
         },
         test(data) {
             // console.log(this.$refs["dialog"].$refs["view"].reset());
