@@ -41,7 +41,7 @@
         <!-- <mon-address v-model="address" /> -->
 
         <!-- select -->
-        <mon-select :options="options" v-model="vs"></mon-select>
+        <mon-select :options="options" v-model="vs" @change="test"></mon-select>
 
         <div style="margin-top: 20px">
             <button @click="getData()">Get Data</button>
@@ -89,14 +89,13 @@ export default {
             location: null,
             v: "",
             options: [
-                { v: "1", title: "t1" },
-                { v: "2", title: "t2" },
-                { v: "3", title: "t3" },
-                { v: "4", title: "t4" },
-                { v: "5", title: "t5" },
+                { v: "1", title: "t1-测试的选项哟" },
+                { v: "2", title: "t2-测试的选项哟" },
+                { v: "3", title: "t3-测试的选项哟" },
+                { v: "4", title: "t4-测试的选项哟" },
+                { v: "5", title: "t5-测试的选项哟" },
             ],
-            vs: [{ v: "4", title: "t4" },
-                { v: "5", title: "t5" },],
+            vs: [],
         };
     },
     mounted() {
@@ -136,9 +135,9 @@ export default {
                 { v: "1", title: "t1" }
             ]
         },
-        test(data) {
+        test(data, v) {
             // console.log(this.$refs["dialog"].$refs["view"].reset());
-            console.log(data);
+            console.log(data, v);
         },
     },
 };

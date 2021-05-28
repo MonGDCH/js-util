@@ -50,11 +50,12 @@
                     <!-- <li @click="selected(null)">
                         <span>{{ placeholder }}</span>
                     </li> -->
-                    <li v-for="option in optionsList" @click="selected(option)">
-                        <span v-if="typeof option == 'object'">{{
-                            option[labelName]
-                        }}</span>
-                        <span v-else>{{ option }}</span>
+                    <li
+                        v-for="option in optionsList"
+                        @click="selected(option)"
+                        :class="{ selected: option.selected }"
+                    >
+                        <span>{{ option[labelName] }}</span>
                     </li>
                 </ul>
                 <span class="mon-input-select_arrow"></span>
@@ -115,6 +116,11 @@ export default {
             type: String,
             default: "title",
         },
+        // 是否多选
+        multiple: {
+            type: Boolean,
+            default: false,
+        },
         // 绑定值
         value: {
             type: Array,
@@ -125,8 +131,6 @@ export default {
     },
     data() {
         return {
-            // 选择列表
-            // optionsList: [],
             // 显示选择窗口
             isShowPop: false,
             // 选中值
@@ -143,6 +147,12 @@ export default {
             });
             return list.join(",");
         },
+        // 选中的值
+        selectedItem() {
+            return this.selectedData.map((item) => {
+                return item[this.labelName];
+            });
+        },
         // 选项列表
         optionsList() {
             let originList = this.options;
@@ -150,12 +160,21 @@ export default {
             if (this.searchTxt) {
                 originList = originList.filter((item, index) => {
                     // 根据选项类型给名称赋值
-                    let content =
-                        typeof item == "object" ? item[this.labelName] : item;
-                    return content.indexOf(this.searchTxt) > -1;
+                    return item[this.labelName].indexOf(this.searchTxt) > -1;
                 });
             }
-            // 存在
+            // 存在选中项
+            if (this.selectedItem.length > 0) {
+                originList = originList.map((item) => {
+                    if (this.selectedItem.indexOf(item[this.labelName]) > -1) {
+                        item.selected = true;
+                    } else {
+                        item.selected = false;
+                    }
+
+                    return item;
+                });
+            }
 
             return originList;
         },
@@ -172,7 +191,6 @@ export default {
         },
     },
     mounted() {
-        // this.optionsList = this.options;
         this.selectedData = this.value;
         document.body.addEventListener("click", (e) => {
             if (
@@ -202,8 +220,25 @@ export default {
         },
         // 点击选项
         selected: function (val) {
-            this.selectedData = [val];
-            this.hidePop();
+            if (!this.multiple) {
+                this.selectedData = [val];
+                this.hidePop();
+            } else {
+                // 判断是否已存在
+                let extsis = this.selectedData.some((item) => {
+                    return item[this.labelName] == val[this.labelName];
+                });
+                if (extsis) {
+                    // 已存在则移除
+                    this.selectedData = this.selectedData.filter((item) => {
+                        return item[this.labelName] != val[this.labelName];
+                    });
+                } else {
+                    // 不存在则插入
+                    this.selectedData.push(val);
+                }
+            }
+
             this.$emit("change", this.selectedData, val);
         },
     },
@@ -311,7 +346,7 @@ export default {
             display: block;
             margin-top: 30px;
             margin-bottom: 4px;
-            max-height: 240px;
+            max-height: 180px;
             overflow-y: scroll;
             border-top: 1px #dcdfe6 solid;
 
@@ -332,6 +367,13 @@ export default {
                         position: absolute;
                         right: 0px;
                     }
+                }
+
+                &.selected::after {
+                    content: "✓";
+                    display: inline-block;
+                    position: absolute;
+                    right: 0px;
                 }
             }
 
