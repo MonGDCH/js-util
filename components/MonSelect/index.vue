@@ -248,7 +248,7 @@ export default {
 <style lang="less" scoped>
 .mon-input-select_wrap {
     position: relative;
-    width: 198px;
+    width: 100%;
     height: 30px;
     font-size: 14px;
     color: #5a5c5f;
@@ -271,7 +271,7 @@ export default {
 
     /* 组件内容 */
     .mon-input-select {
-        width: 198px;
+        width: 100%;
         position: absolute;
 
         /* 基本下拉框 */

@@ -48,7 +48,7 @@ export default {
     -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     -o-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-    overflow: hidden;
+    // overflow: hidden;
 
     .dialog-cont-title {
         font-size: 15px;

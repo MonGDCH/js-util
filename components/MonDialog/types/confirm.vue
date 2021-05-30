@@ -47,7 +47,7 @@ export default {
     margin: 0 auto;
     background-color: #fff;
     border-radius: 3px;
-    overflow: hidden;
+    // overflow: hidden;
     -webkit-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     -moz-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
     -ms-box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);

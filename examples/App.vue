@@ -2,7 +2,7 @@
     <div id="app">
         <!-- <mon-carousel :imgs="[{img: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3224110779,1779790953&fm=26&gp=0.jpg'},{img: 'https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=3224110779,1779790953&fm=26&gp=0.jpg'}]"/> -->
         <!-- <mon-date-picker v-model="v" /> -->
-        <!-- <mon-dialog
+        <mon-dialog
             v-model="show"
             ref="dialog"
             title="你好"
@@ -12,13 +12,12 @@
             @cancel="show = false"
             :isPassword="true"
         >
-            <div>
-                <h4>Custom test</h4>
-                <div>
-                    <button @click="show = false">确定</button>
-                </div>
-            </div>
-        </mon-dialog> -->
+            <mon-select
+                :options="options"
+                v-model="vs"
+                @change="test"
+            ></mon-select>
+        </mon-dialog>
         <!-- <mon-music :music="`https://www.runoob.com/try/demo_source/horse.ogg`"/> -->
         <!-- <mon-page-list/> -->
         <!-- <mon-paging v-model="p" :count="12" :pageSize="4" /> -->
@@ -41,7 +40,13 @@
         <!-- <mon-address v-model="address" /> -->
 
         <!-- select -->
-        <mon-select :options="options" v-model="vs" @change="test"></mon-select>
+        <div style="width: 200px">
+            <mon-select
+                :options="options"
+                v-model="vs"
+                @change="test"
+            ></mon-select>
+        </div>
 
         <div style="margin-top: 20px">
             <button @click="getData()">Get Data</button>
@@ -128,12 +133,10 @@ export default {
             // console.log(this.img);
             // this.show = !this.show;
 
-            console.log(this.vs)
+            console.log(this.vs);
         },
-        setData(){
-            this.vs = [
-                { v: "1", title: "t1" }
-            ]
+        setData() {
+            this.vs = [{ v: "1", title: "t1" }];
         },
         test(data, v) {
             // console.log(this.$refs["dialog"].$refs["view"].reset());
